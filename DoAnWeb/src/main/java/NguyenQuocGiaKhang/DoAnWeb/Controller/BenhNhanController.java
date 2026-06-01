@@ -1,9 +1,11 @@
 package NguyenQuocGiaKhang.DoAnWeb.Controller;
 
-import NguyenQuocGiaKhang.DoAnWeb.Model.BenhNhan;
 import NguyenQuocGiaKhang.DoAnWeb.Service.BenhNhanService;
+import NguyenQuocGiaKhang.DoAnWeb.dto.BenhNhanDto;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,19 +21,25 @@ public class BenhNhanController {
 
     @GetMapping("")
     public String index(Model model) {
-        model.addAttribute("benhNhans", benhNhanService.getAll());
+        model.addAttribute("benhNhans", benhNhanService.getAllDtos());
         return "benhnhan/index";
     }
 
     @GetMapping("/create")
     public String createForm(Model model) {
-        model.addAttribute("benhNhan", new BenhNhan());
+        model.addAttribute("benhNhan", new BenhNhanDto());
         return "benhnhan/form";
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute BenhNhan benhNhan, RedirectAttributes redirectAttributes) {
-        BenhNhan saved = benhNhanService.save(benhNhan);
+    public String save(
+            @Valid @ModelAttribute("benhNhan") BenhNhanDto benhNhanDto,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "benhnhan/form";
+        }
+        BenhNhanDto saved = benhNhanService.saveDto(benhNhanDto);
         redirectAttributes.addFlashAttribute("success",
                 "Đã thêm bệnh nhân " + saved.getHoTenBn() + " (" + saved.getMaBn() + ")");
         return "redirect:/benhnhan";
@@ -39,13 +47,19 @@ public class BenhNhanController {
 
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable String id, Model model) {
-        model.addAttribute("benhNhan", benhNhanService.getById(id));
+        model.addAttribute("benhNhan", benhNhanService.getDtoById(id));
         return "benhnhan/form";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute BenhNhan benhNhan, RedirectAttributes redirectAttributes) {
-        BenhNhan saved = benhNhanService.save(benhNhan);
+    public String update(
+            @Valid @ModelAttribute("benhNhan") BenhNhanDto benhNhanDto,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "benhnhan/form";
+        }
+        BenhNhanDto saved = benhNhanService.saveDto(benhNhanDto);
         redirectAttributes.addFlashAttribute("success",
                 "Đã cập nhật bệnh nhân " + saved.getHoTenBn());
         return "redirect:/benhnhan";

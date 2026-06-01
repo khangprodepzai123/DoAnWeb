@@ -20,20 +20,32 @@
     <div class="card">
         <div class="card-body">
             <form th:action="${isEdit} ? @{/benhnhan/update} : @{/benhnhan/save}"
-                  th:object="${benhNhan}" method="post" class="row g-3">
+                  th:object="${benhNhan}" method="post" class="row g-3" novalidate>
+
+                <div class="col-12" th:if="${#fields.hasAnyErrors()}">
+                    <div class="alert alert-warning mb-0">
+                        <i class="bi bi-exclamation-triangle"></i> Vui lòng kiểm tra lại các trường bên dưới.
+                    </div>
+                </div>
 
                 <div class="col-md-4">
                     <label class="form-label" for="maBn">Mã bệnh nhân</label>
                     <input type="text" class="form-control" id="maBn" th:field="*{maBn}"
+                           th:classappend="${#fields.hasErrors('maBn')} ? 'is-invalid'"
                            th:readonly="${isEdit}" placeholder="Để trống để tự sinh"/>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('maBn')}" th:errors="*{maBn}"></div>
                 </div>
                 <div class="col-md-8">
                     <label class="form-label" for="hoTenBn">Họ tên <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="hoTenBn" th:field="*{hoTenBn}" required/>
+                    <input type="text" class="form-control" id="hoTenBn" th:field="*{hoTenBn}"
+                           th:classappend="${#fields.hasErrors('hoTenBn')} ? 'is-invalid'"/>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('hoTenBn')}" th:errors="*{hoTenBn}"></div>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label" for="sdt">Số điện thoại</label>
-                    <input type="text" class="form-control" id="sdt" th:field="*{sdt}"/>
+                    <input type="text" class="form-control" id="sdt" th:field="*{sdt}"
+                           th:classappend="${#fields.hasErrors('sdt')} ? 'is-invalid'"/>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('sdt')}" th:errors="*{sdt}"></div>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label" for="ngaySinh">Ngày sinh</label>

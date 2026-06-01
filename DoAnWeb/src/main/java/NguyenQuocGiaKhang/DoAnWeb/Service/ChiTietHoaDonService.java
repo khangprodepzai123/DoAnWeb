@@ -7,8 +7,10 @@ import NguyenQuocGiaKhang.DoAnWeb.Model.Thuoc;
 import NguyenQuocGiaKhang.DoAnWeb.Repository.ChiTietHoaDonRepository;
 import NguyenQuocGiaKhang.DoAnWeb.Repository.HoaDonRepository;
 import NguyenQuocGiaKhang.DoAnWeb.Repository.ThuocRepository;
+import NguyenQuocGiaKhang.DoAnWeb.dto.ChiTietHoaDonDto;
 import NguyenQuocGiaKhang.DoAnWeb.exception.BusinessException;
 import NguyenQuocGiaKhang.DoAnWeb.exception.ResourceNotFoundException;
+import NguyenQuocGiaKhang.DoAnWeb.mapper.DtoMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,24 +24,32 @@ public class ChiTietHoaDonService {
     private final ChiTietHoaDonRepository chiTietHoaDonRepository;
     private final HoaDonRepository hoaDonRepository;
     private final ThuocRepository thuocRepository;
+    private final DtoMapper dtoMapper;
 
     public ChiTietHoaDonService(
             ChiTietHoaDonRepository chiTietHoaDonRepository,
             HoaDonRepository hoaDonRepository,
-            ThuocRepository thuocRepository) {
+            ThuocRepository thuocRepository,
+            DtoMapper dtoMapper) {
         this.chiTietHoaDonRepository = chiTietHoaDonRepository;
         this.hoaDonRepository = hoaDonRepository;
         this.thuocRepository = thuocRepository;
+        this.dtoMapper = dtoMapper;
     }
 
     @Transactional(readOnly = true)
-    public List<ChiTietHoaDon> findAll() {
-        return chiTietHoaDonRepository.findAll();
+    public List<ChiTietHoaDonDto> findDtosByMaHd(String maHd) {
+        return dtoMapper.toChiTietHoaDonDtoList(findByMaHd(maHd));
     }
 
     @Transactional(readOnly = true)
     public List<ChiTietHoaDon> findByMaHd(String maHd) {
         return chiTietHoaDonRepository.findByHoaDon_MaHd(maHd);
+    }
+
+    @Transactional(readOnly = true)
+    public ChiTietHoaDonDto getDtoById(String maHd, String maThuoc) {
+        return dtoMapper.toDto(getById(maHd, maThuoc));
     }
 
     @Transactional(readOnly = true)
@@ -52,10 +62,9 @@ public class ChiTietHoaDonService {
                         "Không tìm thấy chi tiết hóa đơn: " + maHd + " / " + maThuoc));
     }
 
-    public ChiTietHoaDon save(ChiTietHoaDon chiTiet) {
-        syncCompositeKey(chiTiet);
-        validateChiTiet(chiTiet);
-        return chiTietHoaDonRepository.save(chiTiet);
+    public ChiTietHoaDonDto saveFromDto(ChiTietHoaDonDto dto) {
+        ChiTietHoaDon saved = addToHoaDon(dto.getMaHd(), dto.getMaThuoc(), dto.getSoLuong());
+        return dtoMapper.toDto(saved);
     }
 
     public ChiTietHoaDon addToHoaDon(String maHd, String maThuoc, int soLuong) {
@@ -106,32 +115,5 @@ public class ChiTietHoaDonService {
         return findByMaHd(maHd).stream()
                 .map(ChiTietHoaDon::getThanhTienDong)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    private void syncCompositeKey(ChiTietHoaDon chiTiet) {
-        if (chiTiet.getId() == null) {
-            chiTiet.setId(new ChiTietHoaDonId());
-        }
-        if (chiTiet.getHoaDon() != null) {
-            chiTiet.getId().setMaHd(chiTiet.getHoaDon().getMaHd());
-        }
-        if (chiTiet.getThuoc() != null) {
-            chiTiet.getId().setMaThuoc(chiTiet.getThuoc().getMaThuoc());
-        }
-    }
-
-    private void validateChiTiet(ChiTietHoaDon chiTiet) {
-        if (chiTiet.getHoaDon() == null || chiTiet.getHoaDon().getMaHd() == null) {
-            throw new BusinessException("Chi tiết hóa đơn phải gắn với hóa đơn");
-        }
-        if (chiTiet.getThuoc() == null || chiTiet.getThuoc().getMaThuoc() == null) {
-            throw new BusinessException("Chi tiết hóa đơn phải gắn với thuốc");
-        }
-        if (chiTiet.getSoLuong() == null || chiTiet.getSoLuong() <= 0) {
-            throw new BusinessException("Số lượng phải lớn hơn 0");
-        }
-        if (chiTiet.getDonGia() == null || chiTiet.getDonGia().signum() < 0) {
-            throw new BusinessException("Đơn giá không hợp lệ");
-        }
     }
 }

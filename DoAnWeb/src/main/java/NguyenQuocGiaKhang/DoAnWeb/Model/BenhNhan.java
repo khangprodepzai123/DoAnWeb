@@ -1,8 +1,13 @@
 package NguyenQuocGiaKhang.DoAnWeb.Model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "BenhNhan")
 public class BenhNhan {
@@ -37,9 +42,4 @@ public class BenhNhan {
 
     @OneToOne(mappedBy = "benhNhan")
     private TaiKhoanBenhNhan taiKhoanBenhNhan;
-
-    public BenhNhan() {
-    }
-
-    // Getter Setter
 }

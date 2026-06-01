@@ -14,19 +14,27 @@ public class TaiKhoanBenhNhan {
     @Column(name = "MaTk", length = 10)
     private String maTk;
 
-    @Column(name = "TenDangNhap", unique = true, length = 50)
+    @Column(name = "TenDangNhap", unique = true, nullable = false, length = 50)
     private String tenDangNhap;
 
-    @Column(name = "MatKhau", length = 255)
+    @Column(name = "MatKhau", nullable = false, length = 255)
     private String matKhau;
 
     @Column(name = "DiemTichLuy")
-    private Integer diemTichLuy;
+    private Integer diemTichLuy = 0;
 
     @Column(name = "HoTenBn", length = 255)
     private String hoTenBn;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "VaiTro", nullable = false, length = 20)
+    private VaiTro vaiTro = VaiTro.BENH_NHAN;
+
     @OneToOne
-    @JoinColumn(name = "MaBn")
+    @JoinColumn(name = "MaBn", unique = true)
     private BenhNhan benhNhan;
+
+    @ManyToOne
+    @JoinColumn(name = "MaNv")
+    private NhanVien nhanVien;
 }

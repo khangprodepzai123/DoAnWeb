@@ -1,9 +1,14 @@
 package NguyenQuocGiaKhang.DoAnWeb.Model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "BacSi")
 public class BacSi {
@@ -32,9 +37,4 @@ public class BacSi {
 
     @OneToMany(mappedBy = "bacSi")
     private List<KhamBenh> khamBenhs = new ArrayList<>();
-
-    public BacSi() {
-    }
-
-    // Getter Setter
 }

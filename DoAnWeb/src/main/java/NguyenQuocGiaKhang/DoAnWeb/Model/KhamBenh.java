@@ -1,10 +1,15 @@
 package NguyenQuocGiaKhang.DoAnWeb.Model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "KhamBenh")
 public class KhamBenh {
@@ -46,26 +51,21 @@ public class KhamBenh {
     @Column(name = "TrangThai", length = 50)
     private String trangThai;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaBs")
     private BacSi bacSi;
 
     @OneToOne
-    @JoinColumn(name = "MaBn")
+    @JoinColumn(name = "MaBn", unique = true)
     private BenhNhan benhNhan;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaCd")
     private ChuanDoan chuanDoanEntity;
 
     @OneToOne(mappedBy = "khamBenh")
     private HoaDon hoaDon;
 
-    @OneToMany(mappedBy = "khamBenh")
+    @OneToMany(mappedBy = "khamBenh", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ToaThuoc> toaThuocs = new ArrayList<>();
-
-    public KhamBenh() {
-    }
-
-    // Getter Setter
 }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi"
+      th:with="isEdit=${benhNhan.maBn != null and !#strings.isEmpty(benhNhan.maBn)}">
+<head th:replace="~{fragments/layout :: head(${isEdit} ? 'Sửa bệnh nhân' : 'Thêm bệnh nhân')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<th:block th:replace="~{fragments/layout :: alerts}"></th:block>
+
+<div class="page-header">
+    <div class="container">
+        <h1 class="h2 text-primary mb-0">
+            <i class="bi bi-person-plus" th:if="${!isEdit}"></i>
+            <i class="bi bi-pencil" th:if="${isEdit}"></i>
+            <span th:text="${isEdit} ? 'Sửa bệnh nhân' : 'Thêm bệnh nhân'">Form</span>
+        </h1>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="card">
+        <div class="card-body">
+            <form th:action="${isEdit} ? @{/benhnhan/update} : @{/benhnhan/save}"
+                  th:object="${benhNhan}" method="post" class="row g-3">
+
+                <div class="col-md-4">
+                    <label class="form-label" for="maBn">Mã bệnh nhân</label>
+                    <input type="text" class="form-control" id="maBn" th:field="*{maBn}"
+                           th:readonly="${isEdit}" placeholder="Để trống để tự sinh"/>
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label" for="hoTenBn">Họ tên <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="hoTenBn" th:field="*{hoTenBn}" required/>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="sdt">Số điện thoại</label>
+                    <input type="text" class="form-control" id="sdt" th:field="*{sdt}"/>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="ngaySinh">Ngày sinh</label>
+                    <input type="date" class="form-control" id="ngaySinh" th:field="*{ngaySinh}"/>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="gt">Giới tính</label>
+                    <select class="form-select" id="gt" th:field="*{gt}">
+                        <option value="">-- Chọn --</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="doiTuong">Đối tượng</label>
+                    <input type="text" class="form-control" id="doiTuong" th:field="*{doiTuong}"/>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="bhyt">Số BHYT</label>
+                    <input type="text" class="form-control" id="bhyt" th:field="*{bhyt}"/>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="diaChi">Địa chỉ</label>
+                    <input type="text" class="form-control" id="diaChi" th:field="*{diaChi}"/>
+                </div>
+                <div class="col-12">
+                    <a th:href="@{/benhnhan}" class="btn btn-secondary">Hủy</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Lưu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

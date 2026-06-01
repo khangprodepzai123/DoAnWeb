@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments/layout :: head(${pageTitle})}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<th:block th:replace="~{fragments/layout :: alerts}"></th:block>
+
+<div class="page-header">
+    <div class="container">
+        <h1 class="display-5 text-primary"><i class="bi bi-hospital"></i> Chào mừng đến Phòng Khám Online</h1>
+        <p class="lead mb-0">Hệ thống quản lý phòng khám — Spring Boot + Thymeleaf</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title text-primary"><i class="bi bi-info-circle"></i> Giới thiệu</h3>
+                    <p class="card-text">
+                        Phòng khám hỗ trợ quản lý bệnh nhân, khám bệnh, hóa đơn và hồ sơ bệnh án trên nền web.
+                    </p>
+                    <ul class="list-unstyled mb-0">
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Quản lý bệnh nhân &amp; bác sĩ</li>
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Khám bệnh &amp; toa thuốc</li>
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Hóa đơn &amp; thanh toán</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title text-primary"><i class="bi bi-grid"></i> Truy cập nhanh</h3>
+                    <div class="d-grid gap-2">
+                        <a th:href="@{/benhnhan}" class="btn btn-primary">
+                            <i class="bi bi-people"></i> Danh sách bệnh nhân
+                        </a>
+                        <a th:href="@{/benhnhan/create}" class="btn btn-outline-primary">
+                            <i class="bi bi-person-plus"></i> Thêm bệnh nhân mới
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

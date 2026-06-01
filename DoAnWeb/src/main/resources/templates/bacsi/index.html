@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments/layout :: head('Danh sách bác sĩ')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<th:block th:replace="~{fragments/layout :: alerts}"></th:block>
+<div class="page-header"><div class="container d-flex justify-content-between align-items-center">
+    <h1 class="h2 text-primary mb-0"><i class="bi bi-person-hearts"></i> Bác sĩ</h1>
+    <a th:href="@{/bacsi/create}" class="btn btn-primary"><i class="bi bi-plus"></i> Thêm</a>
+</div></div>
+<div class="container mb-5"><div class="card"><div class="table-responsive">
+<table class="table table-hover mb-0"><thead class="table-light"><tr>
+    <th>Mã BS</th><th>Họ tên</th><th>Chuyên khoa</th><th></th>
+</tr></thead><tbody>
+<tr th:each="x : ${items}">
+    <td th:text="${x.maBs}"></td><td th:text="${x.hoTenBs}"></td><td th:text="${x.chuyenKhoa} ?: '-'"></td>
+    <td class="text-end">
+        <a th:href="@{/bacsi/edit/{id}(id=${x.maBs})}" class="btn btn-sm btn-outline-primary">Sửa</a>
+        <a th:href="@{/bacsi/delete/{id}(id=${x.maBs})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa?')">Xóa</a>
+    </td>
+</tr></tbody></table></div></div></div>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body></html>

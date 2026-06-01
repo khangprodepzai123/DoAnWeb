@@ -4,6 +4,9 @@ import NguyenQuocGiaKhang.DoAnWeb.Model.ToaThuoc;
 import NguyenQuocGiaKhang.DoAnWeb.Model.ToaThuocId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ToaThuocRepository
-        extends JpaRepository<ToaThuoc, ToaThuocId> {
+import java.util.List;
+
+public interface ToaThuocRepository extends JpaRepository<ToaThuoc, ToaThuocId> {
+
+    List<ToaThuoc> findByKhamBenh_MaKham(String maKham);
 }

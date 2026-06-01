@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi"
+      th:with="isEdit=${item.maKham != null and !#strings.isEmpty(item.maKham)}">
+<head th:replace="~{fragments/layout :: head('Phiếu khám')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<div class="container my-4"><form th:action="${isEdit} ? @{/khambenh/update} : @{/khambenh/save}" th:object="${item}" method="post" class="card card-body row g-3">
+    <div class="col-md-3"><label>Mã khám</label><input class="form-control" th:field="*{maKham}" th:readonly="${isEdit}"/></div>
+    <div class="col-md-3"><label>Bệnh nhân *</label>
+        <select class="form-select" th:field="*{maBn}" required>
+            <option value="">-- Chọn --</option>
+            <option th:each="bn : ${benhNhans}" th:value="${bn.maBn}" th:text="${bn.maBn + ' - ' + bn.hoTenBn}"></option>
+        </select></div>
+    <div class="col-md-3"><label>Bác sĩ *</label>
+        <select class="form-select" th:field="*{maBs}" required>
+            <option value="">-- Chọn --</option>
+            <option th:each="bs : ${bacSis}" th:value="${bs.maBs}" th:text="${bs.hoTenBs}"></option>
+        </select></div>
+    <div class="col-md-3"><label>Chuẩn đoán (mã)</label>
+        <select class="form-select" th:field="*{maCd}">
+            <option th:each="cd : ${chuanDoans}" th:value="${cd.maCd}" th:text="${cd.tenCd}"></option>
+        </select></div>
+    <div class="col-md-3"><label>Ngày khám</label><input type="date" class="form-control" th:field="*{ngayKham}"/></div>
+    <div class="col-md-3"><label>Trạng thái</label>
+        <select class="form-select" th:field="*{trangThai}">
+            <option th:each="t : ${trangThais}" th:value="${t}" th:text="${t}"></option>
+        </select></div>
+    <div class="col-12"><label>Lý do khám</label><textarea class="form-control" th:field="*{lyDoKham}"></textarea></div>
+    <div class="col-12"><label>Chẩn đoán (text)</label><input class="form-control" th:field="*{chuanDoan}"/></div>
+    <div class="col-12"><label>Hướng xử trí</label><textarea class="form-control" th:field="*{huongXuTri}"></textarea></div>
+    <div class="col-12"><a th:href="@{/khambenh}" class="btn btn-secondary">Hủy</a><button class="btn btn-primary">Lưu</button></div>
+</form></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body></html>

@@ -1,35 +1,64 @@
 package NguyenQuocGiaKhang.DoAnWeb.Service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import NguyenQuocGiaKhang.DoAnWeb.Model.BacSi;
 import NguyenQuocGiaKhang.DoAnWeb.Repository.BacSiRepository;
+import NguyenQuocGiaKhang.DoAnWeb.dto.BacSiDto;
+import NguyenQuocGiaKhang.DoAnWeb.exception.BusinessException;
+import NguyenQuocGiaKhang.DoAnWeb.exception.ResourceNotFoundException;
+import NguyenQuocGiaKhang.DoAnWeb.mapper.DtoMapper;
+import NguyenQuocGiaKhang.DoAnWeb.util.MaIdGenerator;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class BacSiService {
 
-    private final BacSiRepository bacSiRepository;
+    private static final String MA_PREFIX = "BS";
 
-    public BacSiService(BacSiRepository bacSiRepository) {
-        this.bacSiRepository = bacSiRepository;
+    private final BacSiRepository repository;
+    private final DtoMapper dtoMapper;
+
+    public BacSiService(BacSiRepository repository, DtoMapper dtoMapper) {
+        this.repository = repository;
+        this.dtoMapper = dtoMapper;
     }
 
-    public List<BacSi> getAll() {
-        return bacSiRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<BacSiDto> getAllDtos() {
+        return repository.findAll().stream().map(dtoMapper::toDto).collect(Collectors.toList());
     }
 
-    public BacSi getById(String maBs) {
-        return bacSiRepository.findById(maBs).orElse(null);
+    @Transactional(readOnly = true)
+    public BacSiDto getDtoById(String maBs) {
+        return dtoMapper.toDto(getEntityById(maBs));
     }
 
-    public BacSi save(BacSi bacSi) {
-        return bacSiRepository.save(bacSi);
+    @Transactional(readOnly = true)
+    public BacSi getEntityById(String maBs) {
+        return repository.findById(maBs)
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy bác sĩ: " + maBs));
+    }
+
+    public BacSiDto saveDto(BacSiDto dto) {
+        BacSi entity = dtoMapper.toEntity(dto);
+        if (entity.getHoTenBs() == null || entity.getHoTenBs().isBlank()) {
+            throw new BusinessException("Họ tên bác sĩ không được để trống");
+        }
+        if (entity.getMaBs() == null || entity.getMaBs().isBlank()) {
+            String last = repository.findTopByOrderByMaBsDesc().map(BacSi::getMaBs).orElse(null);
+            entity.setMaBs(MaIdGenerator.nextMa(MA_PREFIX, last));
+        }
+        return dtoMapper.toDto(repository.save(entity));
     }
 
     public void delete(String maBs) {
-        bacSiRepository.deleteById(maBs);
+        if (!repository.existsById(maBs)) {
+            throw new ResourceNotFoundException("Không tìm thấy bác sĩ để xóa: " + maBs);
+        }
+        repository.deleteById(maBs);
     }
 }

@@ -44,6 +44,12 @@
                         <td th:text="${bn.gt} ?: '-'">Nam</td>
                         <td th:text="${bn.diaChi} ?: '-'">-</td>
                         <td class="text-end text-nowrap">
+                            <a th:href="@{/khambenh/dangky/{id}(id=${bn.maBn})}" class="btn btn-sm btn-outline-info" title="Đăng ký khám">
+                                <i class="bi bi-calendar-plus"></i>
+                            </a>
+                            <a th:href="@{/thanhtoan/{id}(id=${bn.maBn})}" class="btn btn-sm btn-outline-success" title="Thanh toán">
+                                <i class="bi bi-credit-card"></i>
+                            </a>
                             <a th:href="@{/benhnhan/edit/{id}(id=${bn.maBn})}" class="btn btn-sm btn-outline-primary">
                                 <i class="bi bi-pencil"></i> Sửa
                             </a>

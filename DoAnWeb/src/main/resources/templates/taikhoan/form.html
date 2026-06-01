@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi"
+      th:with="isEdit=${item.maTk != null and !#strings.isEmpty(item.maTk)}">
+<head th:replace="~{fragments/layout :: head('Tài khoản')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<div class="container my-4"><form th:action="${isEdit} ? @{/taikhoan/update} : @{/taikhoan/save}" th:object="${item}" method="post" class="card card-body row g-3">
+    <div class="col-md-3"><label>Mã TK</label><input class="form-control" th:field="*{maTk}" th:readonly="${isEdit}"/></div>
+    <div class="col-md-4"><label>Tên đăng nhập *</label><input class="form-control" th:field="*{tenDangNhap}" required/></div>
+    <div class="col-md-5"><label>Mật khẩu <span th:if="${isEdit}">(để trống nếu giữ cũ)</span></label>
+        <input type="password" class="form-control" th:field="*{matKhau}" th:required="${!isEdit}"/></div>
+    <div class="col-md-4"><label>Vai trò</label>
+        <select class="form-select" th:field="*{vaiTro}">
+            <option th:each="v : ${vaiTros}" th:value="${v}" th:text="${v}"></option>
+        </select></div>
+    <div class="col-md-4"><label>Liên kết bệnh nhân</label>
+        <select class="form-select" th:field="*{maBn}">
+            <option value="">-- Không --</option>
+            <option th:each="bn : ${benhNhans}" th:value="${bn.maBn}" th:text="${bn.hoTenBn}"></option>
+        </select></div>
+    <div class="col-md-4"><label>Liên kết nhân viên</label>
+        <select class="form-select" th:field="*{maNv}">
+            <option value="">-- Không --</option>
+            <option th:each="nv : ${nhanViens}" th:value="${nv.maNv}" th:text="${nv.hoTenNv}"></option>
+        </select></div>
+    <div class="col-12"><a th:href="@{/taikhoan}" class="btn btn-secondary">Hủy</a><button class="btn btn-primary">Lưu</button></div>
+</form></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body></html>

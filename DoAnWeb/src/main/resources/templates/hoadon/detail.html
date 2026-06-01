@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments/layout :: head('Chi tiết hóa đơn')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<th:block th:replace="~{fragments/layout :: alerts}"></th:block>
+<div class="container my-4">
+    <div class="card mb-3"><div class="card-body">
+        <h3>Hóa đơn <span th:text="${item.maHd}"></span></h3>
+        <p class="mb-0">Bệnh nhân: <strong th:text="${item.hoTenBn}"></strong> |
+            Ngày: <span th:text="${item.ngayLap}"></span> |
+            Thành tiền: <strong th:text="${#numbers.formatDecimal(item.thanhTien,0,'COMMA',0,'POINT')}"></strong> VNĐ</p>
+    </div></div>
+    <table class="table card"><thead><tr><th>Thuốc</th><th>SL</th><th>Đơn giá</th><th>Thành tiền</th></tr></thead>
+    <tbody>
+    <tr th:each="ct : ${item.chiTiets}">
+        <td th:text="${ct.tenThuoc} ?: ct.maThuoc"></td>
+        <td th:text="${ct.soLuong}"></td>
+        <td th:text="${#numbers.formatDecimal(ct.donGia,0,'COMMA',0,'POINT')}"></td>
+        <td th:text="${#numbers.formatDecimal(ct.thanhTien,0,'COMMA',0,'POINT')}"></td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(item.chiTiets)}"><td colspan="4" class="text-muted">Chỉ có tiền khám (chưa có thuốc trên toa).</td></tr>
+    </tbody></table>
+    <a th:href="@{/hoadon}" class="btn btn-secondary">Quay lại</a>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body></html>

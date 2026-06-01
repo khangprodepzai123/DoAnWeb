@@ -1,34 +1,103 @@
 package NguyenQuocGiaKhang.DoAnWeb.Service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import NguyenQuocGiaKhang.DoAnWeb.Model.HoaDon;
+import NguyenQuocGiaKhang.DoAnWeb.Model.KhamBenh;
+import NguyenQuocGiaKhang.DoAnWeb.Model.NhanVien;
 import NguyenQuocGiaKhang.DoAnWeb.Repository.HoaDonRepository;
+import NguyenQuocGiaKhang.DoAnWeb.dto.HoaDonDto;
+import NguyenQuocGiaKhang.DoAnWeb.exception.BusinessException;
+import NguyenQuocGiaKhang.DoAnWeb.exception.ResourceNotFoundException;
+import NguyenQuocGiaKhang.DoAnWeb.mapper.DtoMapper;
+import NguyenQuocGiaKhang.DoAnWeb.util.MaIdGenerator;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class HoaDonService {
 
+    private static final String MA_PREFIX = "HD";
+    private static final String DEFAULT_MA_NV = "NV001";
+
     private final HoaDonRepository hoaDonRepository;
+    private final KhamBenhService khamBenhService;
+    private final NhanVienService nhanVienService;
+    private final ChiTietHoaDonService chiTietHoaDonService;
+    private final DtoMapper dtoMapper;
 
-    public HoaDonService(HoaDonRepository hoaDonRepository) {
+    public HoaDonService(
+            HoaDonRepository hoaDonRepository,
+            KhamBenhService khamBenhService,
+            NhanVienService nhanVienService,
+            ChiTietHoaDonService chiTietHoaDonService,
+            DtoMapper dtoMapper) {
         this.hoaDonRepository = hoaDonRepository;
+        this.khamBenhService = khamBenhService;
+        this.nhanVienService = nhanVienService;
+        this.chiTietHoaDonService = chiTietHoaDonService;
+        this.dtoMapper = dtoMapper;
     }
 
-    public List<HoaDon> getAll() {
-        return hoaDonRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<HoaDonDto> getAllDtos() {
+        return hoaDonRepository.findAll().stream().map(this::toDtoWithChiTiet).collect(Collectors.toList());
     }
 
-    public HoaDon getById(String maHd) {
-        return hoaDonRepository.findById(maHd).orElse(null);
+    @Transactional(readOnly = true)
+    public HoaDonDto getDtoById(String maHd) {
+        return toDtoWithChiTiet(getEntityById(maHd));
     }
 
-    public HoaDon save(HoaDon hoaDon) {
-        return hoaDonRepository.save(hoaDon);
+    @Transactional(readOnly = true)
+    public HoaDon getEntityById(String maHd) {
+        return hoaDonRepository.findById(maHd)
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy hóa đơn: " + maHd));
+    }
+
+    @Transactional(readOnly = true)
+    public HoaDonDto getDtoByMaKham(String maKham) {
+        return hoaDonRepository.findByKhamBenh_MaKham(maKham)
+                .map(this::toDtoWithChiTiet)
+                .orElse(null);
+    }
+
+    public HoaDonDto createForKhamBenh(String maKham, BigDecimal thanhTien, int diemTichLuySuDung) {
+        if (hoaDonRepository.findByKhamBenh_MaKham(maKham).isPresent()) {
+            throw new BusinessException("Phiếu khám đã có hóa đơn");
+        }
+        KhamBenh khamBenh = khamBenhService.getEntityById(maKham);
+        NhanVien nhanVien = nhanVienService.getEntityById(DEFAULT_MA_NV);
+
+        HoaDon hoaDon = new HoaDon();
+        String last = hoaDonRepository.findTopByOrderByMaHdDesc().map(HoaDon::getMaHd).orElse(null);
+        hoaDon.setMaHd(MaIdGenerator.nextMa(MA_PREFIX, last));
+        hoaDon.setKhamBenh(khamBenh);
+        hoaDon.setNhanVien(nhanVien);
+        hoaDon.setNgayLap(LocalDate.now());
+        hoaDon.setThanhTien(thanhTien);
+        hoaDon.setDiemTichLuySuDung(diemTichLuySuDung);
+        return toDtoWithChiTiet(hoaDonRepository.save(hoaDon));
     }
 
     public void delete(String maHd) {
+        chiTietHoaDonService.deleteAllByMaHd(maHd);
+        if (!hoaDonRepository.existsById(maHd)) {
+            throw new ResourceNotFoundException("Không tìm thấy hóa đơn để xóa: " + maHd);
+        }
         hoaDonRepository.deleteById(maHd);
+    }
+
+    private HoaDonDto toDtoWithChiTiet(HoaDon entity) {
+        HoaDonDto dto = dtoMapper.toDto(entity);
+        dto.setChiTiets(chiTietHoaDonService.findDtosByMaHd(entity.getMaHd()));
+        if (dto.getThanhTien() == null) {
+            dto.setThanhTien(chiTietHoaDonService.tinhTongTien(entity.getMaHd()));
+        }
+        return dto;
     }
 }

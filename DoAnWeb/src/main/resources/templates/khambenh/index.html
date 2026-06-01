@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments/layout :: head('Khám bệnh')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<th:block th:replace="~{fragments/layout :: alerts}"></th:block>
+<div class="page-header"><div class="container d-flex justify-content-between">
+    <h1 class="h2 text-primary"><i class="bi bi-clipboard2-pulse"></i> Phiếu khám bệnh</h1>
+    <a th:href="@{/khambenh/create}" class="btn btn-primary">Tạo phiếu khám</a>
+</div></div>
+<div class="container mb-5"><table class="table table-hover card"><thead class="table-light"><tr>
+    <th>Mã khám</th><th>Bệnh nhân</th><th>Bác sĩ</th><th>Trạng thái</th><th></th>
+</tr></thead><tbody>
+<tr th:each="x : ${items}">
+    <td th:text="${x.maKham}"></td>
+    <td th:text="${x.hoTenBn} ?: x.maBn"></td>
+    <td th:text="${x.hoTenBs} ?: x.maBs"></td>
+    <td><span class="badge bg-info" th:text="${x.trangThai}"></span></td>
+    <td class="text-end text-nowrap">
+        <a th:href="@{/khambenh/edit/{id}(id=${x.maKham})}" class="btn btn-sm btn-outline-primary">Sửa</a>
+        <a th:href="@{/benhan/from-kham/{id}(id=${x.maKham})}" class="btn btn-sm btn-outline-success">Lưu BA</a>
+        <a th:href="@{/khambenh/delete/{id}(id=${x.maKham})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa?')">Xóa</a>
+    </td>
+</tr></tbody></table></div>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body></html>

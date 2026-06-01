@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi"
+      th:with="isEdit=${item.maThuoc != null and !#strings.isEmpty(item.maThuoc)}">
+<head th:replace="~{fragments/layout :: head('Thuốc')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<div class="container my-4"><form th:action="${isEdit} ? @{/thuoc/update} : @{/thuoc/save}" th:object="${item}" method="post" class="card card-body row g-3">
+    <div class="col-md-3"><label>Mã thuốc</label><input class="form-control" th:field="*{maThuoc}" th:readonly="${isEdit}"/></div>
+    <div class="col-md-9"><label>Tên thuốc *</label><input class="form-control" th:field="*{tenThuoc}" required/></div>
+    <div class="col-md-4"><label>Giá bán *</label><input type="number" class="form-control" th:field="*{giaBan}" required/></div>
+    <div class="col-md-4"><label>Số lượng *</label><input type="number" class="form-control" th:field="*{soLuong}" required/></div>
+    <div class="col-12"><label>HDSD</label><textarea class="form-control" th:field="*{hdsd}"></textarea></div>
+    <div class="col-12"><a th:href="@{/thuoc}" class="btn btn-secondary">Hủy</a><button class="btn btn-primary">Lưu</button></div>
+</form></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body></html>

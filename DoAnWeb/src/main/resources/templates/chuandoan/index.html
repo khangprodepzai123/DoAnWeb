@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments/layout :: head('Chuẩn đoán')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<th:block th:replace="~{fragments/layout :: alerts}"></th:block>
+<div class="page-header"><div class="container d-flex justify-content-between">
+    <h1 class="h2 text-primary">Chuẩn đoán</h1>
+    <a th:href="@{/chuandoan/create}" class="btn btn-primary">Thêm</a>
+</div></div>
+<div class="container mb-5"><table class="table table-hover card"><thead class="table-light"><tr>
+    <th>Mã</th><th>Tên</th><th>Mô tả</th><th></th>
+</tr></thead><tbody>
+<tr th:each="x : ${items}">
+    <td th:text="${x.maCd}"></td><td th:text="${x.tenCd}"></td><td th:text="${x.moTa} ?: '-'"></td>
+    <td class="text-end">
+        <a th:href="@{/chuandoan/edit/{id}(id=${x.maCd})}" class="btn btn-sm btn-outline-primary">Sửa</a>
+        <a th:href="@{/chuandoan/delete/{id}(id=${x.maCd})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa?')">Xóa</a>
+    </td>
+</tr></tbody></table></div>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body></html>

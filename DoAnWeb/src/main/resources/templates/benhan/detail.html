@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments/layout :: head('Chi tiết bệnh án')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<div class="container my-4 card card-body">
+    <h3>Bệnh án <span th:text="${item.maBenhAn}"></span></h3>
+    <p><strong>Bệnh nhân:</strong> <span th:text="${item.hoTenBn}"></span></p>
+    <p><strong>Bác sĩ:</strong> <span th:text="${item.hoTenBs}"></span></p>
+    <p><strong>Lý do khám:</strong> <span th:text="${item.lyDoKham}"></span></p>
+    <p><strong>Chẩn đoán:</strong> <span th:text="${item.chuanDoan}"></span></p>
+    <p><strong>Hướng xử trí:</strong> <span th:text="${item.huongXuTri}"></span></p>
+    <a th:href="@{/benhan}" class="btn btn-secondary mt-2">Quay lại</a>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body></html>

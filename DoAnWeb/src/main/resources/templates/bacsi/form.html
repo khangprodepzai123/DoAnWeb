@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi"
+      th:with="isEdit=${item.maBs != null and !#strings.isEmpty(item.maBs)}">
+<head th:replace="~{fragments/layout :: head(${isEdit} ? 'Sửa bác sĩ' : 'Thêm bác sĩ')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<th:block th:replace="~{fragments/layout :: alerts}"></th:block>
+<div class="container my-4"><div class="card"><div class="card-body">
+<form th:action="${isEdit} ? @{/bacsi/update} : @{/bacsi/save}" th:object="${item}" method="post" class="row g-3">
+    <div class="col-md-3"><label class="form-label">Mã BS</label>
+        <input class="form-control" th:field="*{maBs}" th:readonly="${isEdit}"/></div>
+    <div class="col-md-9"><label class="form-label">Họ tên *</label>
+        <input class="form-control" th:field="*{hoTenBs}" required/></div>
+    <div class="col-md-6"><label class="form-label">Chuyên khoa</label>
+        <input class="form-control" th:field="*{chuyenKhoa}"/></div>
+    <div class="col-md-6"><label class="form-label">Trình độ</label>
+        <input class="form-control" th:field="*{trinhDoHocVan}"/></div>
+    <div class="col-md-4"><label class="form-label">Tuổi</label>
+        <input type="number" class="form-control" th:field="*{tuoi}"/></div>
+    <div class="col-md-4"><label class="form-label">Kinh nghiệm (năm)</label>
+        <input type="number" class="form-control" th:field="*{kinhNghiem}"/></div>
+    <div class="col-md-4"><label class="form-label">Chứng chỉ</label>
+        <input class="form-control" th:field="*{chungChiHanhNghe}"/></div>
+    <div class="col-12"><a th:href="@{/bacsi}" class="btn btn-secondary">Hủy</a>
+        <button class="btn btn-primary" type="submit">Lưu</button></div>
+</form></div></div></div>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body></html>

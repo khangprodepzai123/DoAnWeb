@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments/layout :: head('Tạo bệnh án')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+<div class="container my-4"><form th:action="@{/benhan/save}" th:object="${item}" method="post" class="card card-body">
+    <label class="form-label">Chọn phiếu khám</label>
+    <select class="form-select mb-3" th:field="*{maKham}" required>
+        <option value="">-- Chọn phiếu khám --</option>
+        <option th:each="k : ${khamBenhs}" th:value="${k.maKham}"
+                th:text="${k.maKham + ' - ' + (k.hoTenBn ?: k.maBn)}"></option>
+    </select>
+    <button class="btn btn-primary">Tạo bệnh án</button>
+    <a th:href="@{/benhan}" class="btn btn-secondary">Hủy</a>
+</form></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body></html>

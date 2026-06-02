@@ -4,6 +4,7 @@
 <body>
 <th:block th:replace="~{fragments/layout :: navbar}"></th:block>
 <div class="container my-4"><form th:action="@{/benhan/save}" th:object="${item}" method="post" class="card card-body">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <label class="form-label">Chọn phiếu khám</label>
     <select class="form-select mb-3" th:field="*{maKham}" required>
         <option value="">-- Chọn phiếu khám --</option>

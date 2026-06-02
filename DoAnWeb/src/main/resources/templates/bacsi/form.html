@@ -7,6 +7,7 @@
 <th:block th:replace="~{fragments/layout :: alerts}"></th:block>
 <div class="container my-4"><div class="card"><div class="card-body">
 <form th:action="${isEdit} ? @{/bacsi/update} : @{/bacsi/save}" th:object="${item}" method="post" class="row g-3">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <div class="col-md-3"><label class="form-label">Mã BS</label>
         <input class="form-control" th:field="*{maBs}" th:readonly="${isEdit}"/></div>
     <div class="col-md-9"><label class="form-label">Họ tên *</label>

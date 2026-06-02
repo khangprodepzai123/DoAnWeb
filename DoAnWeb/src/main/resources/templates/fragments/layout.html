@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="vi">
 
 <!-- Fragment: phần head -->
 <head th:fragment="head(pageTitle)">
@@ -71,26 +71,46 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/}"><i class="bi bi-house-door"></i> Trang chủ</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('NHAN_VIEN')">
                     <a class="nav-link" th:href="@{/benhnhan}"><i class="bi bi-people"></i> Bệnh nhân</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('NHAN_VIEN')">
                     <a class="nav-link" th:href="@{/khambenh}"><i class="bi bi-clipboard2-pulse"></i> Khám bệnh</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('NHAN_VIEN')">
                     <a class="nav-link" th:href="@{/hoadon}"><i class="bi bi-receipt"></i> Hóa đơn</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('NHAN_VIEN')">
                     <a class="nav-link" th:href="@{/benhan}"><i class="bi bi-file-earmark-medical"></i> Bệnh án</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('NHAN_VIEN')">
                     <a class="nav-link" th:href="@{/bacsi}"><i class="bi bi-person-hearts"></i> Bác sĩ</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('NHAN_VIEN')">
                     <a class="nav-link" th:href="@{/thuoc}"><i class="bi bi-capsule"></i> Thuốc</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('NHAN_VIEN')">
                     <a class="nav-link" th:href="@{/taikhoan}"><i class="bi bi-person-badge"></i> Tài khoản</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link" th:href="@{/login}"><i class="bi bi-box-arrow-in-right"></i> Đăng nhập</a>
+                </li>
+                <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle"></i>
+                        <span sec:authentication="name">user</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <form th:action="@{/logout}" method="post" class="px-3 py-2">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <button class="btn btn-sm btn-outline-danger w-100" type="submit">
+                                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

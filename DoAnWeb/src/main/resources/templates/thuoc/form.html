@@ -5,6 +5,7 @@
 <body>
 <th:block th:replace="~{fragments/layout :: navbar}"></th:block>
 <div class="container my-4"><form th:action="${isEdit} ? @{/thuoc/update} : @{/thuoc/save}" th:object="${item}" method="post" class="card card-body row g-3">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <div class="col-md-3"><label>Mã thuốc</label><input class="form-control" th:field="*{maThuoc}" th:readonly="${isEdit}"/></div>
     <div class="col-md-9"><label>Tên thuốc *</label><input class="form-control" th:field="*{tenThuoc}" required/></div>
     <div class="col-md-4"><label>Giá bán *</label><input type="number" class="form-control" th:field="*{giaBan}" required/></div>

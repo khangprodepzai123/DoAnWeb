@@ -12,6 +12,7 @@ import NguyenQuocGiaKhang.DoAnWeb.mapper.DtoMapper;
 import NguyenQuocGiaKhang.DoAnWeb.util.MaIdGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,16 +27,19 @@ public class TaiKhoanBenhNhanService {
     private final BenhNhanService benhNhanService;
     private final NhanVienService nhanVienService;
     private final DtoMapper dtoMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public TaiKhoanBenhNhanService(
             TaiKhoanBenhNhanRepository repository,
             BenhNhanService benhNhanService,
             NhanVienService nhanVienService,
-            DtoMapper dtoMapper) {
+            DtoMapper dtoMapper,
+            PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.benhNhanService = benhNhanService;
         this.nhanVienService = nhanVienService;
         this.dtoMapper = dtoMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -58,10 +62,6 @@ public class TaiKhoanBenhNhanService {
         if (dto.getTenDangNhap() == null || dto.getTenDangNhap().isBlank()) {
             throw new BusinessException("Tên đăng nhập không được để trống");
         }
-        if (dto.getMatKhau() == null || dto.getMatKhau().isBlank()) {
-            throw new BusinessException("Mật khẩu không được để trống");
-        }
-
         TaiKhoanBenhNhan entity = dtoMapper.toEntity(dto);
         if (entity.getMaTk() == null || entity.getMaTk().isBlank()) {
             String last = repository.findTopByOrderByMaTkDesc().map(TaiKhoanBenhNhan::getMaTk).orElse(null);
@@ -69,12 +69,24 @@ public class TaiKhoanBenhNhanService {
             if (repository.existsByTenDangNhap(dto.getTenDangNhap())) {
                 throw new BusinessException("Tên đăng nhập đã tồn tại");
             }
+
+            if (dto.getMatKhau() == null || dto.getMatKhau().isBlank()) {
+                throw new BusinessException("Mật khẩu không được để trống");
+            }
+            entity.setMatKhau(passwordEncoder.encode(dto.getMatKhau()));
         } else {
             repository.findByTenDangNhap(dto.getTenDangNhap()).ifPresent(existing -> {
                 if (!existing.getMaTk().equals(entity.getMaTk())) {
                     throw new BusinessException("Tên đăng nhập đã tồn tại");
                 }
             });
+
+            // Update password nếu người dùng nhập mật khẩu mới
+            if (dto.getMatKhau() == null || dto.getMatKhau().isBlank()) {
+                entity.setMatKhau(getEntityById(entity.getMaTk()).getMatKhau());
+            } else {
+                entity.setMatKhau(passwordEncoder.encode(dto.getMatKhau()));
+            }
         }
 
         if (entity.getVaiTro() == null) {

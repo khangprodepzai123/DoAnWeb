@@ -25,6 +25,7 @@
         </tbody>
     </table>
     <form th:action="@{/thanhtoan/{maBn}(maBn=${maBn})}" method="post" class="card card-body">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <div class="form-check mb-3" th:if="${thanhToan.diemTichLuyHienCo >= 1}">
             <input class="form-check-input" type="checkbox" name="dungDiem" value="true" id="dungDiem"/>
             <label class="form-check-label" for="dungDiem">Dùng 1 điểm tích lũy (giảm 10%)</label>

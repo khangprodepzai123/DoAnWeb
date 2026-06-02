@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="vi">
+<head th:replace="~{fragments/layout :: head('Đăng nhập')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: navbar}"></th:block>
+
+<div class="container my-5" style="max-width: 520px;">
+    <div class="card">
+        <div class="card-body p-4">
+            <h2 class="h4 mb-3 text-primary"><i class="bi bi-shield-lock"></i> Đăng nhập</h2>
+
+            <div class="alert alert-danger" th:if="${param.error}">
+                Sai tên đăng nhập hoặc mật khẩu.
+            </div>
+            <div class="alert alert-success" th:if="${param.logout}">
+                Đăng xuất thành công.
+            </div>
+
+            <form th:action="@{/login}" method="post" class="row g-3">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <div class="col-12">
+                    <label class="form-label" for="username">Tên đăng nhập</label>
+                    <input class="form-control" id="username" name="username" autocomplete="username" required>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label" for="password">Mật khẩu</label>
+                    <input type="password" class="form-control" id="password" name="password"
+                           autocomplete="current-password" required>
+                </div>
+
+                <div class="col-12 d-grid">
+                    <button class="btn btn-primary btn-lg" type="submit">
+                        <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
+                    </button>
+                </div>
+            </form>
+
+            <hr class="my-4"/>
+            <div class="text-muted small">
+                Tài khoản demo:
+                <ul class="mb-0">
+                    <li><strong>nhanvien</strong> / 123456 (ROLE_NHAN_VIEN)</li>
+                    <li><strong>benhnhan</strong> / 123456 (ROLE_BENH_NHAN)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
+

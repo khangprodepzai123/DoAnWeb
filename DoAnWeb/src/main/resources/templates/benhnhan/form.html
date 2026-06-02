@@ -21,6 +21,7 @@
         <div class="card-body">
             <form th:action="${isEdit} ? @{/benhnhan/update} : @{/benhnhan/save}"
                   th:object="${benhNhan}" method="post" class="row g-3" novalidate>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
                 <div class="col-12" th:if="${#fields.hasAnyErrors()}">
                     <div class="alert alert-warning mb-0">

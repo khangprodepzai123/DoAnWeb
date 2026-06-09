@@ -1,11 +1,7 @@
 package NguyenQuocGiaKhang.DoAnWeb.Model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "TaiKhoanBenhNhan")
 public class TaiKhoanBenhNhan {
@@ -37,4 +33,69 @@ public class TaiKhoanBenhNhan {
     @ManyToOne
     @JoinColumn(name = "MaNv")
     private NhanVien nhanVien;
+
+
+    public String getMaTk() {
+        return maTk;
+    }
+
+    public void setMaTk(String maTk) {
+        this.maTk = maTk;
+    }
+
+    public String getTenDangNhap() {
+        return tenDangNhap;
+    }
+
+    public void setTenDangNhap(String tenDangNhap) {
+        this.tenDangNhap = tenDangNhap;
+    }
+
+    public String getMatKhau() {
+        return matKhau;
+    }
+
+    public void setMatKhau(String matKhau) {
+        this.matKhau = matKhau;
+    }
+
+    public Integer getDiemTichLuy() {
+        return diemTichLuy;
+    }
+
+    public void setDiemTichLuy(Integer diemTichLuy) {
+        this.diemTichLuy = diemTichLuy;
+    }
+
+    public String getHoTenBn() {
+        return hoTenBn;
+    }
+
+    public void setHoTenBn(String hoTenBn) {
+        this.hoTenBn = hoTenBn;
+    }
+
+    public VaiTro getVaiTro() {
+        return vaiTro;
+    }
+
+    public void setVaiTro(VaiTro vaiTro) {
+        this.vaiTro = vaiTro;
+    }
+
+    public BenhNhan getBenhNhan() {
+        return benhNhan;
+    }
+
+    public void setBenhNhan(BenhNhan benhNhan) {
+        this.benhNhan = benhNhan;
+    }
+
+    public NhanVien getNhanVien() {
+        return nhanVien;
+    }
+
+    public void setNhanVien(NhanVien nhanVien) {
+        this.nhanVien = nhanVien;
+    }
 }

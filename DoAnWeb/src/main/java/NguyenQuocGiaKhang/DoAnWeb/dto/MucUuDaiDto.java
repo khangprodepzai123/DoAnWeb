@@ -3,11 +3,7 @@ package NguyenQuocGiaKhang.DoAnWeb.dto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class MucUuDaiDto {
 
     @Size(max = 10)
@@ -22,4 +18,37 @@ public class MucUuDaiDto {
 
     @Size(max = 200)
     private String moTa;
+
+
+    public String getMaMuc() {
+        return maMuc;
+    }
+
+    public void setMaMuc(String maMuc) {
+        this.maMuc = maMuc;
+    }
+
+    public String getTenMuc() {
+        return tenMuc;
+    }
+
+    public void setTenMuc(String tenMuc) {
+        this.tenMuc = tenMuc;
+    }
+
+    public Integer getDiemToiThieu() {
+        return diemToiThieu;
+    }
+
+    public void setDiemToiThieu(Integer diemToiThieu) {
+        this.diemToiThieu = diemToiThieu;
+    }
+
+    public String getMoTa() {
+        return moTa;
+    }
+
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
+    }
 }

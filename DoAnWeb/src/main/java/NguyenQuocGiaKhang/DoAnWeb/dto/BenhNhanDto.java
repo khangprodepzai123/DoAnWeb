@@ -2,13 +2,9 @@ package NguyenQuocGiaKhang.DoAnWeb.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
 public class BenhNhanDto {
 
     @Size(max = 10, message = "Mã bệnh nhân tối đa 10 ký tự")
@@ -34,4 +30,69 @@ public class BenhNhanDto {
 
     @Size(max = 20)
     private String bhyt;
+
+
+    public String getMaBn() {
+        return maBn;
+    }
+
+    public void setMaBn(String maBn) {
+        this.maBn = maBn;
+    }
+
+    public String getHoTenBn() {
+        return hoTenBn;
+    }
+
+    public void setHoTenBn(String hoTenBn) {
+        this.hoTenBn = hoTenBn;
+    }
+
+    public String getSdt() {
+        return sdt;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
+    public LocalDate getNgaySinh() {
+        return ngaySinh;
+    }
+
+    public void setNgaySinh(LocalDate ngaySinh) {
+        this.ngaySinh = ngaySinh;
+    }
+
+    public String getGt() {
+        return gt;
+    }
+
+    public void setGt(String gt) {
+        this.gt = gt;
+    }
+
+    public String getDoiTuong() {
+        return doiTuong;
+    }
+
+    public void setDoiTuong(String doiTuong) {
+        this.doiTuong = doiTuong;
+    }
+
+    public String getDiaChi() {
+        return diaChi;
+    }
+
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
+    }
+
+    public String getBhyt() {
+        return bhyt;
+    }
+
+    public void setBhyt(String bhyt) {
+        this.bhyt = bhyt;
+    }
 }

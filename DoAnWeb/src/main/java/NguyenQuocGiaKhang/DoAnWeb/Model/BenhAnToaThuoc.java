@@ -1,11 +1,7 @@
 package NguyenQuocGiaKhang.DoAnWeb.Model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "BenhAnToaThuoc")
 public class BenhAnToaThuoc {
@@ -31,4 +27,53 @@ public class BenhAnToaThuoc {
     @MapsId("maThuoc")
     @JoinColumn(name = "MaThuoc")
     private Thuoc thuoc;
+
+
+    public BenhAnToaThuocId getId() {
+        return id;
+    }
+
+    public void setId(BenhAnToaThuocId id) {
+        this.id = id;
+    }
+
+    public Integer getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(Integer soLuong) {
+        this.soLuong = soLuong;
+    }
+
+    public String getLieuDung() {
+        return lieuDung;
+    }
+
+    public void setLieuDung(String lieuDung) {
+        this.lieuDung = lieuDung;
+    }
+
+    public String getCachDung() {
+        return cachDung;
+    }
+
+    public void setCachDung(String cachDung) {
+        this.cachDung = cachDung;
+    }
+
+    public BenhAn getBenhAn() {
+        return benhAn;
+    }
+
+    public void setBenhAn(BenhAn benhAn) {
+        this.benhAn = benhAn;
+    }
+
+    public Thuoc getThuoc() {
+        return thuoc;
+    }
+
+    public void setThuoc(Thuoc thuoc) {
+        this.thuoc = thuoc;
+    }
 }

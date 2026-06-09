@@ -1,15 +1,11 @@
 package NguyenQuocGiaKhang.DoAnWeb.Model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "KhamBenh")
 public class KhamBenh {
@@ -68,4 +64,141 @@ public class KhamBenh {
 
     @OneToMany(mappedBy = "khamBenh", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ToaThuoc> toaThuocs = new ArrayList<>();
+
+
+    public String getMaKham() {
+        return maKham;
+    }
+
+    public void setMaKham(String maKham) {
+        this.maKham = maKham;
+    }
+
+    public String getChuanDoan() {
+        return chuanDoan;
+    }
+
+    public void setChuanDoan(String chuanDoan) {
+        this.chuanDoan = chuanDoan;
+    }
+
+    public String getHuongXuTri() {
+        return huongXuTri;
+    }
+
+    public void setHuongXuTri(String huongXuTri) {
+        this.huongXuTri = huongXuTri;
+    }
+
+    public String getLyDoKham() {
+        return lyDoKham;
+    }
+
+    public void setLyDoKham(String lyDoKham) {
+        this.lyDoKham = lyDoKham;
+    }
+
+    public String getQuaTrinhBenhLy() {
+        return quaTrinhBenhLy;
+    }
+
+    public void setQuaTrinhBenhLy(String quaTrinhBenhLy) {
+        this.quaTrinhBenhLy = quaTrinhBenhLy;
+    }
+
+    public String getTienSuBenhNhan() {
+        return tienSuBenhNhan;
+    }
+
+    public void setTienSuBenhNhan(String tienSuBenhNhan) {
+        this.tienSuBenhNhan = tienSuBenhNhan;
+    }
+
+    public String getTienSuGiaDinh() {
+        return tienSuGiaDinh;
+    }
+
+    public void setTienSuGiaDinh(String tienSuGiaDinh) {
+        this.tienSuGiaDinh = tienSuGiaDinh;
+    }
+
+    public String getKhamBoPhan() {
+        return khamBoPhan;
+    }
+
+    public void setKhamBoPhan(String khamBoPhan) {
+        this.khamBoPhan = khamBoPhan;
+    }
+
+    public String getLoaiKham() {
+        return loaiKham;
+    }
+
+    public void setLoaiKham(String loaiKham) {
+        this.loaiKham = loaiKham;
+    }
+
+    public String getXuTriKham() {
+        return xuTriKham;
+    }
+
+    public void setXuTriKham(String xuTriKham) {
+        this.xuTriKham = xuTriKham;
+    }
+
+    public LocalDate getNgayKham() {
+        return ngayKham;
+    }
+
+    public void setNgayKham(LocalDate ngayKham) {
+        this.ngayKham = ngayKham;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public BacSi getBacSi() {
+        return bacSi;
+    }
+
+    public void setBacSi(BacSi bacSi) {
+        this.bacSi = bacSi;
+    }
+
+    public BenhNhan getBenhNhan() {
+        return benhNhan;
+    }
+
+    public void setBenhNhan(BenhNhan benhNhan) {
+        this.benhNhan = benhNhan;
+    }
+
+    public ChuanDoan getChuanDoanEntity() {
+        return chuanDoanEntity;
+    }
+
+    public void setChuanDoanEntity(ChuanDoan chuanDoanEntity) {
+        this.chuanDoanEntity = chuanDoanEntity;
+    }
+
+    public HoaDon getHoaDon() {
+        return hoaDon;
+    }
+
+    public void setHoaDon(HoaDon hoaDon) {
+        this.hoaDon = hoaDon;
+    }
+
+    public List<ToaThuoc> getToaThuocs() {
+        return toaThuocs;
+    }
+
+    public void setToaThuocs(List<ToaThuoc> toaThuocs) {
+        this.toaThuocs = toaThuocs;
+    }
 }

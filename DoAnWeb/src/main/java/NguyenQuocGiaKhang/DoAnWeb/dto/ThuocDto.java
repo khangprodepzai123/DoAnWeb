@@ -4,13 +4,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
 public class ThuocDto {
 
     @Size(max = 10)
@@ -30,4 +26,45 @@ public class ThuocDto {
 
     @Size(max = 500)
     private String hdsd;
+
+
+    public String getMaThuoc() {
+        return maThuoc;
+    }
+
+    public void setMaThuoc(String maThuoc) {
+        this.maThuoc = maThuoc;
+    }
+
+    public String getTenThuoc() {
+        return tenThuoc;
+    }
+
+    public void setTenThuoc(String tenThuoc) {
+        this.tenThuoc = tenThuoc;
+    }
+
+    public BigDecimal getGiaBan() {
+        return giaBan;
+    }
+
+    public void setGiaBan(BigDecimal giaBan) {
+        this.giaBan = giaBan;
+    }
+
+    public Integer getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(Integer soLuong) {
+        this.soLuong = soLuong;
+    }
+
+    public String getHdsd() {
+        return hdsd;
+    }
+
+    public void setHdsd(String hdsd) {
+        this.hdsd = hdsd;
+    }
 }

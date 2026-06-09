@@ -1,13 +1,9 @@
-﻿package NguyenQuocGiaKhang.DoAnWeb.Model;
+package NguyenQuocGiaKhang.DoAnWeb.Model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "ChiTietHoaDon")
 public class ChiTietHoaDon {
@@ -36,5 +32,46 @@ public class ChiTietHoaDon {
             return BigDecimal.ZERO;
         }
         return donGia.multiply(BigDecimal.valueOf(soLuong));
+    }
+
+
+    public ChiTietHoaDonId getId() {
+        return id;
+    }
+
+    public void setId(ChiTietHoaDonId id) {
+        this.id = id;
+    }
+
+    public Integer getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(Integer soLuong) {
+        this.soLuong = soLuong;
+    }
+
+    public BigDecimal getDonGia() {
+        return donGia;
+    }
+
+    public void setDonGia(BigDecimal donGia) {
+        this.donGia = donGia;
+    }
+
+    public HoaDon getHoaDon() {
+        return hoaDon;
+    }
+
+    public void setHoaDon(HoaDon hoaDon) {
+        this.hoaDon = hoaDon;
+    }
+
+    public Thuoc getThuoc() {
+        return thuoc;
+    }
+
+    public void setThuoc(Thuoc thuoc) {
+        this.thuoc = thuoc;
     }
 }

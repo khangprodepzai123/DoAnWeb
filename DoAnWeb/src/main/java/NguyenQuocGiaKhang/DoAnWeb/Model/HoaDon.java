@@ -1,16 +1,12 @@
 package NguyenQuocGiaKhang.DoAnWeb.Model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "HoaDon")
 public class HoaDon {
@@ -38,4 +34,61 @@ public class HoaDon {
 
     @OneToMany(mappedBy = "hoaDon")
     private List<ChiTietHoaDon> chiTietHoaDons = new ArrayList<>();
+
+
+    public String getMaHd() {
+        return maHd;
+    }
+
+    public void setMaHd(String maHd) {
+        this.maHd = maHd;
+    }
+
+    public BigDecimal getThanhTien() {
+        return thanhTien;
+    }
+
+    public void setThanhTien(BigDecimal thanhTien) {
+        this.thanhTien = thanhTien;
+    }
+
+    public LocalDate getNgayLap() {
+        return ngayLap;
+    }
+
+    public void setNgayLap(LocalDate ngayLap) {
+        this.ngayLap = ngayLap;
+    }
+
+    public Integer getDiemTichLuySuDung() {
+        return diemTichLuySuDung;
+    }
+
+    public void setDiemTichLuySuDung(Integer diemTichLuySuDung) {
+        this.diemTichLuySuDung = diemTichLuySuDung;
+    }
+
+    public KhamBenh getKhamBenh() {
+        return khamBenh;
+    }
+
+    public void setKhamBenh(KhamBenh khamBenh) {
+        this.khamBenh = khamBenh;
+    }
+
+    public NhanVien getNhanVien() {
+        return nhanVien;
+    }
+
+    public void setNhanVien(NhanVien nhanVien) {
+        this.nhanVien = nhanVien;
+    }
+
+    public List<ChiTietHoaDon> getChiTietHoaDons() {
+        return chiTietHoaDons;
+    }
+
+    public void setChiTietHoaDons(List<ChiTietHoaDon> chiTietHoaDons) {
+        this.chiTietHoaDons = chiTietHoaDons;
+    }
 }

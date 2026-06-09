@@ -2,11 +2,7 @@ package NguyenQuocGiaKhang.DoAnWeb.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class ChuanDoanDto {
 
     @Size(max = 10)
@@ -18,4 +14,29 @@ public class ChuanDoanDto {
 
     @Size(max = 500)
     private String moTa;
+
+
+    public String getMaCd() {
+        return maCd;
+    }
+
+    public void setMaCd(String maCd) {
+        this.maCd = maCd;
+    }
+
+    public String getTenCd() {
+        return tenCd;
+    }
+
+    public void setTenCd(String tenCd) {
+        this.tenCd = tenCd;
+    }
+
+    public String getMoTa() {
+        return moTa;
+    }
+
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
+    }
 }

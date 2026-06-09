@@ -1,14 +1,10 @@
 package NguyenQuocGiaKhang.DoAnWeb.Model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "NhanVien")
 public class NhanVien {
@@ -22,4 +18,29 @@ public class NhanVien {
 
     @OneToMany(mappedBy = "nhanVien")
     private List<HoaDon> hoaDons = new ArrayList<>();
+
+
+    public String getMaNv() {
+        return maNv;
+    }
+
+    public void setMaNv(String maNv) {
+        this.maNv = maNv;
+    }
+
+    public String getHoTenNv() {
+        return hoTenNv;
+    }
+
+    public void setHoTenNv(String hoTenNv) {
+        this.hoTenNv = hoTenNv;
+    }
+
+    public List<HoaDon> getHoaDons() {
+        return hoaDons;
+    }
+
+    public void setHoaDons(List<HoaDon> hoaDons) {
+        this.hoaDons = hoaDons;
+    }
 }

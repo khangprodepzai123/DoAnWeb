@@ -2,7 +2,6 @@ package NguyenQuocGiaKhang.DoAnWeb.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +17,6 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/login",
-                                "/h2-console/**",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
@@ -38,11 +36,7 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout=true")
-                        .permitAll())
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/h2-console/**"))
-                .headers(headers -> headers
-                        .frameOptions(frame -> frame.sameOrigin()));
+                        .permitAll());
         return http.build();
     }
 

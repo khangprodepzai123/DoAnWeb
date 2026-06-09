@@ -1,15 +1,11 @@
 package NguyenQuocGiaKhang.DoAnWeb.Model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "Thuoc")
 public class Thuoc {
@@ -35,4 +31,61 @@ public class Thuoc {
 
     @OneToMany(mappedBy = "thuoc")
     private List<ToaThuoc> toaThuocs = new ArrayList<>();
+
+
+    public String getMaThuoc() {
+        return maThuoc;
+    }
+
+    public void setMaThuoc(String maThuoc) {
+        this.maThuoc = maThuoc;
+    }
+
+    public String getTenThuoc() {
+        return tenThuoc;
+    }
+
+    public void setTenThuoc(String tenThuoc) {
+        this.tenThuoc = tenThuoc;
+    }
+
+    public BigDecimal getGiaBan() {
+        return giaBan;
+    }
+
+    public void setGiaBan(BigDecimal giaBan) {
+        this.giaBan = giaBan;
+    }
+
+    public Integer getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(Integer soLuong) {
+        this.soLuong = soLuong;
+    }
+
+    public String getHdsd() {
+        return hdsd;
+    }
+
+    public void setHdsd(String hdsd) {
+        this.hdsd = hdsd;
+    }
+
+    public List<ChiTietHoaDon> getChiTietHoaDons() {
+        return chiTietHoaDons;
+    }
+
+    public void setChiTietHoaDons(List<ChiTietHoaDon> chiTietHoaDons) {
+        this.chiTietHoaDons = chiTietHoaDons;
+    }
+
+    public List<ToaThuoc> getToaThuocs() {
+        return toaThuocs;
+    }
+
+    public void setToaThuocs(List<ToaThuoc> toaThuocs) {
+        this.toaThuocs = toaThuocs;
+    }
 }

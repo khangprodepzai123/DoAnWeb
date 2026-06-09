@@ -2,11 +2,13 @@ package NguyenQuocGiaKhang.DoAnWeb.Controller;
 
 import NguyenQuocGiaKhang.DoAnWeb.Service.BacSiService;
 import NguyenQuocGiaKhang.DoAnWeb.dto.BacSiDto;
+import NguyenQuocGiaKhang.DoAnWeb.exception.BusinessException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -32,11 +34,22 @@ public class BacSiController {
     }
 
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute("item") BacSiDto dto, BindingResult result, RedirectAttributes ra) {
-        if (result.hasErrors()) return "bacsi/form";
-        var saved = bacSiService.saveDto(dto);
-        ra.addFlashAttribute("success", "Đã lưu bác sĩ " + saved.getHoTenBs());
-        return "redirect:/bacsi";
+    public String save(
+            @Valid @ModelAttribute("item") BacSiDto dto,
+            @RequestParam(value = "anhFile", required = false) MultipartFile anhFile,
+            BindingResult result,
+            RedirectAttributes ra) {
+        if (result.hasErrors()) {
+            return "bacsi/form";
+        }
+        try {
+            var saved = bacSiService.saveDto(dto, anhFile);
+            ra.addFlashAttribute("success", "Đã lưu bác sĩ " + saved.getHoTenBs());
+            return "redirect:/bacsi";
+        } catch (BusinessException ex) {
+            ra.addFlashAttribute("error", ex.getMessage());
+            return "redirect:/bacsi/create";
+        }
     }
 
     @GetMapping("/edit/{id}")
@@ -46,11 +59,22 @@ public class BacSiController {
     }
 
     @PostMapping("/update")
-    public String update(@Valid @ModelAttribute("item") BacSiDto dto, BindingResult result, RedirectAttributes ra) {
-        if (result.hasErrors()) return "bacsi/form";
-        var saved = bacSiService.saveDto(dto);
-        ra.addFlashAttribute("success", "Đã cập nhật bác sĩ " + saved.getHoTenBs());
-        return "redirect:/bacsi";
+    public String update(
+            @Valid @ModelAttribute("item") BacSiDto dto,
+            @RequestParam(value = "anhFile", required = false) MultipartFile anhFile,
+            BindingResult result,
+            RedirectAttributes ra) {
+        if (result.hasErrors()) {
+            return "bacsi/form";
+        }
+        try {
+            var saved = bacSiService.saveDto(dto, anhFile);
+            ra.addFlashAttribute("success", "Đã cập nhật bác sĩ " + saved.getHoTenBs());
+            return "redirect:/bacsi";
+        } catch (BusinessException ex) {
+            ra.addFlashAttribute("error", ex.getMessage());
+            return "redirect:/bacsi/edit/" + dto.getMaBs();
+        }
     }
 
     @GetMapping("/delete/{id}")

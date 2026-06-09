@@ -31,6 +31,9 @@ public class BacSi {
     @Column(name = "ChungChiHanhNghe", length = 200)
     private String chungChiHanhNghe;
 
+    @Column(name = "AnhBs", length = 255)
+    private String anhBs;
+
     @OneToMany(mappedBy = "bacSi")
     private List<KhamBenh> khamBenhs = new ArrayList<>();
 
@@ -89,6 +92,14 @@ public class BacSi {
 
     public void setChungChiHanhNghe(String chungChiHanhNghe) {
         this.chungChiHanhNghe = chungChiHanhNghe;
+    }
+
+    public String getAnhBs() {
+        return anhBs;
+    }
+
+    public void setAnhBs(String anhBs) {
+        this.anhBs = anhBs;
     }
 
     public List<KhamBenh> getKhamBenhs() {

@@ -6,7 +6,8 @@
 <th:block th:replace="~{fragments/layout :: navbar}"></th:block>
 <th:block th:replace="~{fragments/layout :: alerts}"></th:block>
 <div class="container my-4"><div class="card"><div class="card-body">
-<form th:action="${isEdit} ? @{/bacsi/update} : @{/bacsi/save}" th:object="${item}" method="post" class="row g-3">
+<form th:action="${isEdit} ? @{/bacsi/update} : @{/bacsi/save}" th:object="${item}" method="post"
+      enctype="multipart/form-data" class="row g-3">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <div class="col-md-3"><label class="form-label">Mã BS</label>
         <input class="form-control" th:field="*{maBs}" th:readonly="${isEdit}"/></div>
@@ -22,8 +23,20 @@
         <input type="number" class="form-control" th:field="*{kinhNghiem}"/></div>
     <div class="col-md-4"><label class="form-label">Chứng chỉ</label>
         <input class="form-control" th:field="*{chungChiHanhNghe}"/></div>
-    <div class="col-12"><a th:href="@{/bacsi}" class="btn btn-secondary">Hủy</a>
-        <button class="btn btn-primary" type="submit">Lưu</button></div>
+    <div class="col-md-6">
+        <label class="form-label">Ảnh bác sĩ</label>
+        <input type="file" name="anhFile" class="form-control" accept="image/jpeg,image/png,image/webp,image/gif"/>
+        <div class="form-text">JPG, PNG, WEBP, GIF — tối đa 2MB. Để trống nếu không đổi ảnh.</div>
+    </div>
+    <div class="col-md-6" th:if="${isEdit and item.anhBs != null}">
+        <label class="form-label">Ảnh hiện tại</label><br/>
+        <img th:src="@{'/images/bacsi/' + ${item.anhBs}}" alt="Ảnh bác sĩ"
+             class="img-thumbnail" style="max-height: 140px; object-fit: cover;"/>
+    </div>
+    <div class="col-12">
+        <a th:href="@{/bacsi}" class="btn btn-secondary">Hủy</a>
+        <button class="btn btn-primary" type="submit">Lưu</button>
+    </div>
 </form></div></div></div>
 <th:block th:replace="~{fragments/layout :: footer}"></th:block>
 <th:block th:replace="~{fragments/layout :: scripts}"></th:block>

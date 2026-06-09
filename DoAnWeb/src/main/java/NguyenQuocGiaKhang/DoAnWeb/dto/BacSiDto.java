@@ -25,6 +25,8 @@ public class BacSiDto {
     @Size(max = 200)
     private String chungChiHanhNghe;
 
+    private String anhBs;
+
 
     public String getMaBs() {
         return maBs;
@@ -80,5 +82,13 @@ public class BacSiDto {
 
     public void setChungChiHanhNghe(String chungChiHanhNghe) {
         this.chungChiHanhNghe = chungChiHanhNghe;
+    }
+
+    public String getAnhBs() {
+        return anhBs;
+    }
+
+    public void setAnhBs(String anhBs) {
+        this.anhBs = anhBs;
     }
 }

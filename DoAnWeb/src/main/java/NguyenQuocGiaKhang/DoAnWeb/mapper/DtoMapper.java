@@ -60,6 +60,7 @@ public class DtoMapper {
         dto.setTuoi(entity.getTuoi());
         dto.setKinhNghiem(entity.getKinhNghiem());
         dto.setChungChiHanhNghe(entity.getChungChiHanhNghe());
+        dto.setAnhBs(entity.getAnhBs());
         return dto;
     }
 
@@ -75,6 +76,7 @@ public class DtoMapper {
         entity.setTuoi(dto.getTuoi());
         entity.setKinhNghiem(dto.getKinhNghiem());
         entity.setChungChiHanhNghe(dto.getChungChiHanhNghe());
+        entity.setAnhBs(dto.getAnhBs());
         return entity;
     }
 

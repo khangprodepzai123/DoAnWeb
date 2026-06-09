@@ -8,17 +8,46 @@
     <h1 class="h2 text-primary mb-0"><i class="bi bi-person-hearts"></i> Bác sĩ</h1>
     <a th:href="@{/bacsi/create}" class="btn btn-primary"><i class="bi bi-plus"></i> Thêm</a>
 </div></div>
-<div class="container mb-5"><div class="card"><div class="table-responsive">
-<table class="table table-hover mb-0"><thead class="table-light"><tr>
-    <th>Mã BS</th><th>Họ tên</th><th>Chuyên khoa</th><th></th>
-</tr></thead><tbody>
-<tr th:each="x : ${items}">
-    <td th:text="${x.maBs}"></td><td th:text="${x.hoTenBs}"></td><td th:text="${x.chuyenKhoa} ?: '-'"></td>
-    <td class="text-end">
-        <a th:href="@{/bacsi/edit/{id}(id=${x.maBs})}" class="btn btn-sm btn-outline-primary">Sửa</a>
-        <a th:href="@{/bacsi/delete/{id}(id=${x.maBs})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa?')">Xóa</a>
-    </td>
-</tr></tbody></table></div></div></div>
+<div class="container mb-5">
+    <div class="row g-4" th:if="${!#lists.isEmpty(items)}">
+        <div class="col-md-6 col-lg-4" th:each="x : ${items}">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <img th:if="${x.anhBs != null}"
+                             th:src="@{'/images/bacsi/' + ${x.anhBs}}"
+                             th:alt="${x.hoTenBs}"
+                             class="rounded-circle border"
+                             style="width: 120px; height: 120px; object-fit: cover;"/>
+                        <div th:unless="${x.anhBs != null}"
+                             class="rounded-circle border bg-light d-inline-flex align-items-center justify-content-center text-muted"
+                             style="width: 120px; height: 120px;">
+                            <i class="bi bi-person-badge fs-1"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title mb-1" th:text="${x.hoTenBs}">Tên BS</h5>
+                    <p class="text-muted small mb-2" th:text="${x.maBs}">BS001</p>
+                    <p class="mb-1"><strong>Chuyên khoa:</strong>
+                        <span th:text="${x.chuyenKhoa != null ? x.chuyenKhoa : '-'}">-</span></p>
+                    <p class="mb-1"><strong>Trình độ:</strong>
+                        <span th:text="${x.trinhDoHocVan != null ? x.trinhDoHocVan : '-'}">-</span></p>
+                    <p class="mb-1" th:if="${x.kinhNghiem != null}">
+                        <strong>Kinh nghiệm:</strong> <span th:text="${x.kinhNghiem}"></span> năm
+                    </p>
+                    <p class="mb-3" th:if="${x.chungChiHanhNghe != null}">
+                        <strong>Chứng chỉ:</strong> <span th:text="${x.chungChiHanhNghe}"></span>
+                    </p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a th:href="@{/bacsi/edit/{id}(id=${x.maBs})}" class="btn btn-sm btn-outline-primary">Sửa</a>
+                        <a th:href="@{/bacsi/delete/{id}(id=${x.maBs})}" class="btn btn-sm btn-outline-danger"
+                           onclick="return confirm('Xóa bác sĩ này?')">Xóa</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-info" th:if="${#lists.isEmpty(items)}">Chưa có bác sĩ nào.</div>
+</div>
 <th:block th:replace="~{fragments/layout :: footer}"></th:block>
 <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
 </body></html>

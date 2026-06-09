@@ -1,8 +1,10 @@
 package NguyenQuocGiaKhang.DoAnWeb.Controller;
 
 import NguyenQuocGiaKhang.DoAnWeb.Service.BenhAnService;
+import NguyenQuocGiaKhang.DoAnWeb.Service.HoaDonService;
 import NguyenQuocGiaKhang.DoAnWeb.Service.KhamBenhService;
 import NguyenQuocGiaKhang.DoAnWeb.dto.BenhAnDto;
+import NguyenQuocGiaKhang.DoAnWeb.exception.BusinessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,12 @@ public class BenhAnController {
 
     private final BenhAnService benhAnService;
     private final KhamBenhService khamBenhService;
+    private final HoaDonService hoaDonService;
 
-    public BenhAnController(BenhAnService benhAnService, KhamBenhService khamBenhService) {
+    public BenhAnController(BenhAnService benhAnService, KhamBenhService khamBenhService, HoaDonService hoaDonService) {
         this.benhAnService = benhAnService;
         this.khamBenhService = khamBenhService;
+        this.hoaDonService = hoaDonService;
     }
 
     @GetMapping("")
@@ -42,9 +46,18 @@ public class BenhAnController {
 
     @GetMapping("/from-kham/{maKham}")
     public String fromKham(@PathVariable String maKham, RedirectAttributes ra) {
-        var saved = benhAnService.saveFromKhamBenh(maKham);
-        ra.addFlashAttribute("success", "Đã tạo bệnh án " + saved.getMaBenhAn() + " từ phiếu khám");
-        return "redirect:/benhan";
+        try {
+            var saved = benhAnService.saveFromKhamBenh(maKham);
+            ra.addFlashAttribute("success", "Đã tạo bệnh án " + saved.getMaBenhAn() + " từ phiếu khám");
+            return "redirect:/benhan/detail/" + saved.getMaBenhAn();
+        } catch (BusinessException ex) {
+            ra.addFlashAttribute("error", ex.getMessage());
+            var hd = hoaDonService.getDtoByMaKham(maKham);
+            if (hd != null) {
+                return "redirect:/hoadon/detail/" + hd.getMaHd();
+            }
+            return "redirect:/khambenh";
+        }
     }
 
     @GetMapping("/detail/{id}")

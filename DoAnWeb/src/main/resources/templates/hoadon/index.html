@@ -6,16 +6,23 @@
 <th:block th:replace="~{fragments/layout :: alerts}"></th:block>
 <div class="page-header"><div class="container"><h1 class="h2 text-primary"><i class="bi bi-receipt"></i> Hóa đơn</h1></div></div>
 <div class="container mb-5"><table class="table table-hover card"><thead class="table-light"><tr>
-    <th>Mã HD</th><th>Bệnh nhân</th><th>Ngày lập</th><th>Thành tiền</th><th></th>
+    <th>Mã HD</th><th>Bệnh nhân</th><th>Ngày lập</th><th>Thành tiền</th><th>Trạng thái</th><th></th>
 </tr></thead><tbody>
 <tr th:each="x : ${items}">
     <td th:text="${x.maHd}"></td>
     <td th:text="${x.hoTenBn} ?: '-'"></td>
     <td th:text="${x.ngayLap != null ? #temporals.format(x.ngayLap,'dd/MM/yyyy') : '-'}"></td>
     <td th:text="${#numbers.formatDecimal(x.thanhTien,0,'COMMA',0,'POINT')}"></td>
-    <td class="text-end">
+    <td>
+        <span th:if="${x.trangThaiThanhToan == 'Đã thanh toán'}" class="badge bg-success">Đã thanh toán</span>
+        <span th:if="${x.trangThaiThanhToan == 'Chưa thanh toán'}" class="badge bg-warning text-dark">Chưa thanh toán</span>
+        <span th:if="${x.trangThaiThanhToan == null}" class="badge bg-secondary">Đã thanh toán</span>
+    </td>
+    <td class="text-end text-nowrap">
         <a th:href="@{/hoadon/detail/{id}(id=${x.maHd})}" class="btn btn-sm btn-outline-primary">Chi tiết</a>
-        <a th:href="@{/hoadon/delete/{id}(id=${x.maHd})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa?')">Xóa</a>
+        <a th:if="${x.trangThaiThanhToan == 'Chưa thanh toán'}"
+           th:href="@{/hoadon/delete/{id}(id=${x.maHd})}"
+           class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa hóa đơn nháp?')">Xóa</a>
     </td>
 </tr></tbody></table></div>
 <th:block th:replace="~{fragments/layout :: footer}"></th:block>

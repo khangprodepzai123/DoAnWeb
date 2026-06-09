@@ -15,9 +15,12 @@ public class HoaDonDto {
     private BigDecimal thanhTien;
     private Integer diemTichLuySuDung;
 
+    private String maBn;
     private String hoTenBn;
     private String hoTenNv;
     private String trangThaiKham;
+    private String trangThaiThanhToan;
+    private boolean daCoBenhAn;
 
     private List<ChiTietHoaDonDto> chiTiets = new ArrayList<>();
 
@@ -70,6 +73,14 @@ public class HoaDonDto {
         this.diemTichLuySuDung = diemTichLuySuDung;
     }
 
+    public String getMaBn() {
+        return maBn;
+    }
+
+    public void setMaBn(String maBn) {
+        this.maBn = maBn;
+    }
+
     public String getHoTenBn() {
         return hoTenBn;
     }
@@ -92,6 +103,22 @@ public class HoaDonDto {
 
     public void setTrangThaiKham(String trangThaiKham) {
         this.trangThaiKham = trangThaiKham;
+    }
+
+    public String getTrangThaiThanhToan() {
+        return trangThaiThanhToan;
+    }
+
+    public void setTrangThaiThanhToan(String trangThaiThanhToan) {
+        this.trangThaiThanhToan = trangThaiThanhToan;
+    }
+
+    public boolean isDaCoBenhAn() {
+        return daCoBenhAn;
+    }
+
+    public void setDaCoBenhAn(boolean daCoBenhAn) {
+        this.daCoBenhAn = daCoBenhAn;
     }
 
     public List<ChiTietHoaDonDto> getChiTiets() {

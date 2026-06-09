@@ -55,6 +55,11 @@ public class KhamBenhDto {
 
     private String hoTenBs;
 
+    /** Thông tin hóa đơn (hiển thị danh sách) */
+    private String maHd;
+    private String trangThaiThanhToan;
+    private boolean daCoBenhAn;
+
 
     public String getMaKham() {
         return maKham;
@@ -190,5 +195,29 @@ public class KhamBenhDto {
 
     public void setHoTenBs(String hoTenBs) {
         this.hoTenBs = hoTenBs;
+    }
+
+    public String getMaHd() {
+        return maHd;
+    }
+
+    public void setMaHd(String maHd) {
+        this.maHd = maHd;
+    }
+
+    public String getTrangThaiThanhToan() {
+        return trangThaiThanhToan;
+    }
+
+    public void setTrangThaiThanhToan(String trangThaiThanhToan) {
+        this.trangThaiThanhToan = trangThaiThanhToan;
+    }
+
+    public boolean isDaCoBenhAn() {
+        return daCoBenhAn;
+    }
+
+    public void setDaCoBenhAn(boolean daCoBenhAn) {
+        this.daCoBenhAn = daCoBenhAn;
     }
 }

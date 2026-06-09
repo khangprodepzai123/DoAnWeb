@@ -7,9 +7,16 @@
 <div class="container my-4">
     <div class="card mb-3"><div class="card-body">
         <h3>Hóa đơn <span th:text="${item.maHd}"></span></h3>
-        <p class="mb-0">Bệnh nhân: <strong th:text="${item.hoTenBn}"></strong> |
+        <p class="mb-1">Bệnh nhân: <strong th:text="${item.hoTenBn}"></strong> |
             Ngày: <span th:text="${item.ngayLap}"></span> |
             Thành tiền: <strong th:text="${#numbers.formatDecimal(item.thanhTien,0,'COMMA',0,'POINT')}"></strong> VNĐ</p>
+        <p class="mb-0">
+            Trạng thái:
+            <span th:if="${item.trangThaiThanhToan == 'Đã thanh toán'}" class="badge bg-success">Đã thanh toán</span>
+            <span th:if="${item.trangThaiThanhToan == 'Chưa thanh toán'}" class="badge bg-warning text-dark">Chưa thanh toán</span>
+            <span th:if="${item.trangThaiThanhToan == null}" class="badge bg-secondary">Đã thanh toán</span>
+            <span th:if="${item.daCoBenhAn}" class="badge bg-info ms-2">Đã lưu bệnh án</span>
+        </p>
     </div></div>
     <table class="table card"><thead><tr><th>Thuốc</th><th>SL</th><th>Đơn giá</th><th>Thành tiền</th></tr></thead>
     <tbody>
@@ -21,7 +28,19 @@
     </tr>
     <tr th:if="${#lists.isEmpty(item.chiTiets)}"><td colspan="4" class="text-muted">Chỉ có tiền khám (chưa có thuốc trên toa).</td></tr>
     </tbody></table>
-    <a th:href="@{/hoadon}" class="btn btn-secondary">Quay lại</a>
+    <div class="d-flex gap-2 flex-wrap">
+        <a th:href="@{/hoadon}" class="btn btn-secondary">Quay lại</a>
+        <a th:if="${item.trangThaiThanhToan == 'Chưa thanh toán' and item.maBn != null}"
+           th:href="@{/thanhtoan/{maBn}(maBn=${item.maBn})}"
+           class="btn btn-success">Thanh toán</a>
+        <a th:if="${(item.trangThaiThanhToan == 'Đã thanh toán' or item.trangThaiThanhToan == null) and !item.daCoBenhAn and item.maKham != null}"
+           th:href="@{/benhan/from-kham/{id}(id=${item.maKham})}"
+           class="btn btn-primary"
+           onclick="return confirm('Lưu bệnh án từ phiếu khám này?')">Lưu bệnh án</a>
+        <a th:if="${item.maKham != null}"
+           th:href="@{/khambenh/edit/{id}(id=${item.maKham})}"
+           class="btn btn-outline-primary">Xem phiếu khám</a>
+    </div>
 </div>
 <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
 </body></html>

@@ -1,6 +1,8 @@
 package NguyenQuocGiaKhang.DoAnWeb.Service;
 
 import NguyenQuocGiaKhang.DoAnWeb.Model.*;
+import NguyenQuocGiaKhang.DoAnWeb.Repository.BenhAnRepository;
+import NguyenQuocGiaKhang.DoAnWeb.Repository.HoaDonRepository;
 import NguyenQuocGiaKhang.DoAnWeb.Repository.KhamBenhRepository;
 import NguyenQuocGiaKhang.DoAnWeb.dto.KhamBenhDto;
 import NguyenQuocGiaKhang.DoAnWeb.exception.BusinessException;
@@ -22,6 +24,8 @@ public class KhamBenhService {
     private static final String DEFAULT_MA_CD = "CD001";
 
     private final KhamBenhRepository khamBenhRepository;
+    private final HoaDonRepository hoaDonRepository;
+    private final BenhAnRepository benhAnRepository;
     private final BenhNhanService benhNhanService;
     private final BacSiService bacSiService;
     private final ChuanDoanService chuanDoanService;
@@ -29,11 +33,15 @@ public class KhamBenhService {
 
     public KhamBenhService(
             KhamBenhRepository khamBenhRepository,
+            HoaDonRepository hoaDonRepository,
+            BenhAnRepository benhAnRepository,
             BenhNhanService benhNhanService,
             BacSiService bacSiService,
             ChuanDoanService chuanDoanService,
             DtoMapper dtoMapper) {
         this.khamBenhRepository = khamBenhRepository;
+        this.hoaDonRepository = hoaDonRepository;
+        this.benhAnRepository = benhAnRepository;
         this.benhNhanService = benhNhanService;
         this.bacSiService = bacSiService;
         this.chuanDoanService = chuanDoanService;
@@ -43,6 +51,18 @@ public class KhamBenhService {
     @Transactional(readOnly = true)
     public List<KhamBenhDto> getAllDtos() {
         return khamBenhRepository.findAll().stream().map(dtoMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<KhamBenhDto> getAllDtosForIndex() {
+        return getAllDtos().stream().map(dto -> {
+            hoaDonRepository.findByKhamBenh_MaKham(dto.getMaKham()).ifPresent(hd -> {
+                dto.setMaHd(hd.getMaHd());
+                dto.setTrangThaiThanhToan(hd.getTrangThaiThanhToan());
+            });
+            dto.setDaCoBenhAn(benhAnRepository.findByMaKham(dto.getMaKham()).isPresent());
+            return dto;
+        }).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

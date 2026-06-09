@@ -4,32 +4,139 @@
 <head th:replace="~{fragments/layout :: head('Phiếu khám')}"></head>
 <body>
 <th:block th:replace="~{fragments/layout :: navbar}"></th:block>
-<div class="container my-4"><form th:action="${isEdit} ? @{/khambenh/update} : @{/khambenh/save}" th:object="${item}" method="post" class="card card-body row g-3">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <div class="col-md-3"><label>Mã khám</label><input class="form-control" th:field="*{maKham}" th:readonly="${isEdit}"/></div>
-    <div class="col-md-3"><label>Bệnh nhân *</label>
-        <select class="form-select" th:field="*{maBn}" required>
-            <option value="">-- Chọn --</option>
-            <option th:each="bn : ${benhNhans}" th:value="${bn.maBn}" th:text="${bn.maBn + ' - ' + bn.hoTenBn}"></option>
-        </select></div>
-    <div class="col-md-3"><label>Bác sĩ *</label>
-        <select class="form-select" th:field="*{maBs}" required>
-            <option value="">-- Chọn --</option>
-            <option th:each="bs : ${bacSis}" th:value="${bs.maBs}" th:text="${bs.hoTenBs}"></option>
-        </select></div>
-    <div class="col-md-3"><label>Chuẩn đoán (mã)</label>
-        <select class="form-select" th:field="*{maCd}">
-            <option th:each="cd : ${chuanDoans}" th:value="${cd.maCd}" th:text="${cd.tenCd}"></option>
-        </select></div>
-    <div class="col-md-3"><label>Ngày khám</label><input type="date" class="form-control" th:field="*{ngayKham}"/></div>
-    <div class="col-md-3"><label>Trạng thái</label>
-        <select class="form-select" th:field="*{trangThai}">
-            <option th:each="t : ${trangThais}" th:value="${t}" th:text="${t}"></option>
-        </select></div>
-    <div class="col-12"><label>Lý do khám</label><textarea class="form-control" th:field="*{lyDoKham}"></textarea></div>
-    <div class="col-12"><label>Chẩn đoán (text)</label><input class="form-control" th:field="*{chuanDoan}"/></div>
-    <div class="col-12"><label>Hướng xử trí</label><textarea class="form-control" th:field="*{huongXuTri}"></textarea></div>
-    <div class="col-12"><a th:href="@{/khambenh}" class="btn btn-secondary">Hủy</a><button class="btn btn-primary">Lưu</button></div>
-</form></div>
+<th:block th:replace="~{fragments/layout :: alerts}"></th:block>
+<div class="container my-4">
+    <form th:action="${isEdit} ? @{/khambenh/update} : @{/khambenh/save}" th:object="${item}" method="post"
+          class="card card-body row g-3 mb-3">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="col-md-3"><label class="form-label">Mã khám</label>
+            <input class="form-control" th:field="*{maKham}" th:readonly="${isEdit}"/></div>
+        <div class="col-md-3"><label class="form-label">Bệnh nhân *</label>
+            <select class="form-select" th:field="*{maBn}" required>
+                <option value="">-- Chọn --</option>
+                <option th:each="bn : ${benhNhans}" th:value="${bn.maBn}"
+                        th:text="${bn.maBn + ' - ' + bn.hoTenBn}"></option>
+            </select></div>
+        <div class="col-md-3"><label class="form-label">Bác sĩ *</label>
+            <select class="form-select" th:field="*{maBs}" required>
+                <option value="">-- Chọn --</option>
+                <option th:each="bs : ${bacSis}" th:value="${bs.maBs}" th:text="${bs.hoTenBs}"></option>
+            </select></div>
+        <div class="col-md-3"><label class="form-label">Chuẩn đoán (mã)</label>
+            <select class="form-select" th:field="*{maCd}">
+                <option th:each="cd : ${chuanDoans}" th:value="${cd.maCd}" th:text="${cd.tenCd}"></option>
+            </select></div>
+        <div class="col-md-3"><label class="form-label">Ngày khám</label>
+            <input type="date" class="form-control" th:field="*{ngayKham}"/></div>
+        <div class="col-md-3"><label class="form-label">Trạng thái</label>
+            <select class="form-select" th:field="*{trangThai}">
+                <option th:each="t : ${trangThais}" th:value="${t}" th:text="${t}"></option>
+            </select></div>
+        <div class="col-12"><label class="form-label">Lý do khám</label>
+            <textarea class="form-control" th:field="*{lyDoKham}"></textarea></div>
+        <div class="col-12"><label class="form-label">Chẩn đoán (text)</label>
+            <input class="form-control" th:field="*{chuanDoan}"/></div>
+        <div class="col-12"><label class="form-label">Hướng xử trí</label>
+            <textarea class="form-control" th:field="*{huongXuTri}"></textarea></div>
+        <div class="col-12">
+            <a th:href="@{/khambenh}" class="btn btn-secondary">Hủy</a>
+            <button class="btn btn-primary" type="submit">Lưu phiếu khám</button>
+        </div>
+    </form>
+
+    <div class="card" th:if="${isEdit}">
+        <div class="card-header"><i class="bi bi-capsule"></i> Toa thuốc</div>
+        <div class="card-body">
+            <div class="table-responsive mb-3">
+                <table class="table table-sm table-hover mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Mã thuốc</th>
+                        <th>Tên thuốc</th>
+                        <th>Số lượng</th>
+                        <th>Liều dùng</th>
+                        <th>Cách dùng</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${toaThuocs == null or #lists.isEmpty(toaThuocs)}">
+                        <td colspan="6" class="text-muted text-center">Chưa kê thuốc.</td>
+                    </tr>
+                    <tr th:each="tt : ${toaThuocs}">
+                        <td th:text="${tt.maThuoc}"></td>
+                        <td th:text="${tt.tenThuoc}"></td>
+                        <td th:text="${tt.soLuong}"></td>
+                        <td th:text="${tt.lieuDung} ?: '-'"></td>
+                        <td th:text="${tt.cachDung} ?: '-'"></td>
+                        <td class="text-end">
+                            <a th:href="@{/khambenh/{mk}/xoa-thuoc/{mt}(mk=${item.maKham}, mt=${tt.maThuoc})}"
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Xóa thuốc này khỏi toa?')">Xóa</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <form th:action="@{/khambenh/{id}/them-thuoc(id=${item.maKham})}" method="post"
+                  class="row g-2 align-items-end border-top pt-3">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <div class="col-md-4">
+                    <label class="form-label">Thuốc *</label>
+                    <select name="maThuoc" class="form-select" required>
+                        <option value="">-- Chọn thuốc --</option>
+                        <option th:each="t : ${thuocs}" th:value="${t.maThuoc}"
+                                th:text="${t.maThuoc + ' - ' + t.tenThuoc}"></option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Số lượng *</label>
+                    <input type="number" name="soLuong" class="form-control" min="1" value="1" required/>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Liều dùng</label>
+                    <input type="text" name="lieuDung" class="form-control" placeholder="1 viên"/>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Cách dùng</label>
+                    <input type="text" name="cachDung" class="form-control" placeholder="Uống sau ăn"/>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-success w-100">Thêm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mt-3" th:if="${isEdit}">
+        <div class="card-header"><i class="bi bi-receipt"></i> Hóa đơn &amp; thanh toán</div>
+        <div class="card-body">
+            <p th:if="${hoaDon == null}" class="mb-2 text-muted">
+                Chưa có hóa đơn. Kê thuốc xong, bấm <strong>Lưu hóa đơn</strong> để tạo hóa đơn nháp (chưa trừ kho).
+            </p>
+            <p th:if="${hoaDon != null}" class="mb-2">
+                Hóa đơn: <a th:href="@{/hoadon/detail/{id}(id=${hoaDon.maHd})}" th:text="${hoaDon.maHd}"></a>
+                — <span th:text="${hoaDon.trangThaiThanhToan}"></span>
+                — <strong th:text="${#numbers.formatDecimal(hoaDon.thanhTien,0,'COMMA',0,'POINT')}"></strong> VNĐ
+            </p>
+            <div class="d-flex gap-2 flex-wrap">
+                <a th:href="@{/khambenh/{id}/tao-hoadon(id=${item.maKham})}"
+                   class="btn btn-outline-success btn-sm"
+                   th:text="${hoaDon == null} ? 'Lưu hóa đơn' : 'Cập nhật hóa đơn'"
+                   onclick="return confirm('Lưu/cập nhật hóa đơn từ toa thuốc hiện tại?')"></a>
+                <a th:if="${hoaDon != null and hoaDon.trangThaiThanhToan == 'Chưa thanh toán'}"
+                   th:href="@{/thanhtoan/{maBn}(maBn=${item.maBn})}"
+                   class="btn btn-success btn-sm">Thanh toán</a>
+            </div>
+        </div>
+    </div>
+
+    <p class="text-muted small mt-2" th:unless="${isEdit}">
+        Lưu phiếu khám trước, sau đó mới thêm thuốc vào toa.
+    </p>
+</div>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
 <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
-</body></html>
+</body>
+</html>

@@ -32,6 +32,15 @@ public class BenhNhanService {
     }
 
     @Transactional(readOnly = true)
+    public List<BenhNhanDto> searchByHoTen(String keyword) {
+        if (keyword == null || keyword.isBlank()) {
+            return getAllDtos();
+        }
+        return dtoMapper.toBenhNhanDtoList(
+                benhNhanRepository.findByHoTenBnContainingIgnoreCase(keyword.trim()));
+    }
+
+    @Transactional(readOnly = true)
     public BenhNhanDto getDtoById(String maBn) {
         return dtoMapper.toDto(getEntityById(maBn));
     }

@@ -1,6 +1,7 @@
 package NguyenQuocGiaKhang.DoAnWeb.Controller;
 
 import NguyenQuocGiaKhang.DoAnWeb.Service.HoaDonService;
+import NguyenQuocGiaKhang.DoAnWeb.exception.BusinessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +31,12 @@ public class HoaDonController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable String id, RedirectAttributes ra) {
-        hoaDonService.delete(id);
-        ra.addFlashAttribute("success", "Đã xóa hóa đơn " + id);
+        try {
+            hoaDonService.delete(id);
+            ra.addFlashAttribute("success", "Đã xóa hóa đơn " + id);
+        } catch (BusinessException ex) {
+            ra.addFlashAttribute("error", ex.getMessage());
+        }
         return "redirect:/hoadon";
     }
 }

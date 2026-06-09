@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface BenhAnRepository extends JpaRepository<BenhAn, String> {
 
     Optional<BenhAn> findTopByOrderByMaBenhAnDesc();
+
+    Optional<BenhAn> findByMaKham(String maKham);
 }

@@ -193,7 +193,9 @@ public class DtoMapper {
         dto.setNgayLap(entity.getNgayLap());
         dto.setThanhTien(entity.getThanhTien());
         dto.setDiemTichLuySuDung(entity.getDiemTichLuySuDung());
+        dto.setTrangThaiThanhToan(entity.getTrangThaiThanhToan());
         if (entity.getKhamBenh() != null && entity.getKhamBenh().getBenhNhan() != null) {
+            dto.setMaBn(entity.getKhamBenh().getBenhNhan().getMaBn());
             dto.setHoTenBn(entity.getKhamBenh().getBenhNhan().getHoTenBn());
             dto.setTrangThaiKham(entity.getKhamBenh().getTrangThai());
         }

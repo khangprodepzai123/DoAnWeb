@@ -3,31 +3,28 @@ package NguyenQuocGiaKhang.DoAnWeb.Model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "ToaThuoc")
+@Table(name = "toa_thuoc")
 public class ToaThuoc {
 
     @EmbeddedId
-    private ToaThuocId id;
+    private ToaThuocId id = new ToaThuocId();
 
-    @Column(name = "SoLuong")
+    @Column(name = "so_luong")
     private Integer soLuong;
 
-    @Column(name = "LieuDung", length = 200)
+    @Column(name = "lieu_dung", length = 200)
     private String lieuDung;
 
-    @Column(name = "CachDung", length = 300)
+    @Column(name = "cach_dung", length = 300)
     private String cachDung;
 
-    @ManyToOne
-    @MapsId("maKham")
-    @JoinColumn(name = "MaKham")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ma_kham", insertable = false, updatable = false)
     private KhamBenh khamBenh;
 
-    @ManyToOne
-    @MapsId("maThuoc")
-    @JoinColumn(name = "MaThuoc")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ma_thuoc", insertable = false, updatable = false)
     private Thuoc thuoc;
-
 
     public ToaThuocId getId() {
         return id;

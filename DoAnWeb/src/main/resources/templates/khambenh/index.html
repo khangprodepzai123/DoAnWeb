@@ -9,16 +9,33 @@
     <a th:href="@{/khambenh/create}" class="btn btn-primary">Tạo phiếu khám</a>
 </div></div>
 <div class="container mb-5"><table class="table table-hover card"><thead class="table-light"><tr>
-    <th>Mã khám</th><th>Bệnh nhân</th><th>Bác sĩ</th><th>Trạng thái</th><th></th>
+    <th>Mã khám</th><th>Bệnh nhân</th><th>Bác sĩ</th><th>Trạng thái</th>
+    <th>Hóa đơn</th><th>Thanh toán</th><th></th>
 </tr></thead><tbody>
 <tr th:each="x : ${items}">
     <td th:text="${x.maKham}"></td>
     <td th:text="${x.hoTenBn} ?: x.maBn"></td>
     <td th:text="${x.hoTenBs} ?: x.maBs"></td>
     <td><span class="badge bg-info" th:text="${x.trangThai}"></span></td>
+    <td>
+        <a th:if="${x.maHd != null}" th:href="@{/hoadon/detail/{id}(id=${x.maHd})}" th:text="${x.maHd}"></a>
+        <span th:unless="${x.maHd != null}" class="text-muted">Chưa có</span>
+    </td>
+    <td>
+        <span th:if="${x.trangThaiThanhToan == 'Đã thanh toán'}" class="badge bg-success">Đã thanh toán</span>
+        <span th:if="${x.trangThaiThanhToan == 'Chưa thanh toán'}" class="badge bg-warning text-dark">Chưa thanh toán</span>
+        <span th:if="${x.maHd == null}" class="text-muted">-</span>
+        <span th:if="${x.daCoBenhAn}" class="badge bg-secondary ms-1">Đã có BA</span>
+    </td>
     <td class="text-end text-nowrap">
         <a th:href="@{/khambenh/edit/{id}(id=${x.maKham})}" class="btn btn-sm btn-outline-primary">Sửa</a>
-        <a th:href="@{/benhan/from-kham/{id}(id=${x.maKham})}" class="btn btn-sm btn-outline-success">Lưu BA</a>
+        <a th:if="${x.maHd == null}"
+           th:href="@{/khambenh/{id}/tao-hoadon(id=${x.maKham})}"
+           class="btn btn-sm btn-outline-success"
+           onclick="return confirm('Lưu hóa đơn nháp từ toa thuốc hiện tại?')">Lưu HĐ</a>
+        <a th:if="${x.trangThaiThanhToan == 'Chưa thanh toán'}"
+           th:href="@{/thanhtoan/{maBn}(maBn=${x.maBn})}"
+           class="btn btn-sm btn-success">Thanh toán</a>
         <a th:href="@{/khambenh/delete/{id}(id=${x.maKham})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa?')">Xóa</a>
     </td>
 </tr></tbody></table></div>

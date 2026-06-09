@@ -24,6 +24,9 @@ public class HoaDon {
     @Column(name = "DiemTichLuySuDung")
     private Integer diemTichLuySuDung;
 
+    @Column(name = "TrangThaiThanhToan", length = 30)
+    private String trangThaiThanhToan = TrangThaiThanhToan.CHUA_THANH_TOAN;
+
     @OneToOne
     @JoinColumn(name = "MaKham")
     private KhamBenh khamBenh;
@@ -66,6 +69,14 @@ public class HoaDon {
 
     public void setDiemTichLuySuDung(Integer diemTichLuySuDung) {
         this.diemTichLuySuDung = diemTichLuySuDung;
+    }
+
+    public String getTrangThaiThanhToan() {
+        return trangThaiThanhToan;
+    }
+
+    public void setTrangThaiThanhToan(String trangThaiThanhToan) {
+        this.trangThaiThanhToan = trangThaiThanhToan;
     }
 
     public KhamBenh getKhamBenh() {

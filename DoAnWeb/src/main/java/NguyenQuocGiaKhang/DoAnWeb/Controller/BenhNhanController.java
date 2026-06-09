@@ -20,8 +20,11 @@ public class BenhNhanController {
     }
 
     @GetMapping("")
-    public String index(Model model) {
-        model.addAttribute("benhNhans", benhNhanService.getAllDtos());
+    public String index(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            Model model) {
+        model.addAttribute("benhNhans", benhNhanService.searchByHoTen(keyword));
+        model.addAttribute("keyword", keyword != null ? keyword : "");
         return "benhnhan/index";
     }
 

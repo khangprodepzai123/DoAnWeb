@@ -68,6 +68,10 @@ public class ChiTietHoaDonService {
     }
 
     public ChiTietHoaDon addToHoaDon(String maHd, String maThuoc, int soLuong) {
+        return addToHoaDon(maHd, maThuoc, soLuong, true);
+    }
+
+    public ChiTietHoaDon addToHoaDon(String maHd, String maThuoc, int soLuong, boolean kiemTraTonKho) {
         if (soLuong <= 0) {
             throw new BusinessException("Số lượng phải lớn hơn 0");
         }
@@ -78,7 +82,7 @@ public class ChiTietHoaDonService {
         Thuoc thuoc = thuocRepository.findById(maThuoc)
                 .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy thuốc: " + maThuoc));
 
-        if (thuoc.getSoLuong() != null && thuoc.getSoLuong() < soLuong) {
+        if (kiemTraTonKho && thuoc.getSoLuong() != null && thuoc.getSoLuong() < soLuong) {
             throw new BusinessException("Thuốc " + thuoc.getTenThuoc() + " không đủ tồn kho");
         }
 

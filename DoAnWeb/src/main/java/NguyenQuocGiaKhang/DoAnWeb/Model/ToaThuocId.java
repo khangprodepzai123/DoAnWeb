@@ -8,12 +8,11 @@ import java.io.Serializable;
 @Embeddable
 public class ToaThuocId implements Serializable {
 
-    @Column(name = "MaKham", length = 10)
+    @Column(name = "ma_kham", length = 10)
     private String maKham;
 
-    @Column(name = "MaThuoc", length = 10)
+    @Column(name = "ma_thuoc", length = 10)
     private String maThuoc;
-
 
     public String getMaKham() {
         return maKham;

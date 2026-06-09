@@ -17,6 +17,23 @@
 </div>
 
 <div class="container mb-5">
+    <div class="card mb-3">
+        <div class="card-body">
+            <form th:action="@{/benhnhan}" method="get" class="row g-2 align-items-end">
+                <div class="col-md-8">
+                    <label class="form-label">Tìm theo tên</label>
+                    <input type="text" name="keyword" class="form-control"
+                           th:value="${keyword}" placeholder="Nhập họ tên bệnh nhân..."/>
+                </div>
+                <div class="col-md-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-grow-1">
+                        <i class="bi bi-search"></i> Tìm
+                    </button>
+                    <a th:href="@{/benhnhan}" class="btn btn-outline-secondary">Xóa lọc</a>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -34,7 +51,9 @@
                     </thead>
                     <tbody>
                     <tr th:if="${#lists.isEmpty(benhNhans)}">
-                        <td colspan="7" class="text-center text-muted py-4">Chưa có bệnh nhân nào.</td>
+                        <td colspan="7" class="text-center text-muted py-4"
+                            th:text="${keyword != null and !#strings.isEmpty(keyword)} ? 'Không tìm thấy bệnh nhân.' : 'Chưa có bệnh nhân nào.'">
+                        </td>
                     </tr>
                     <tr th:each="bn : ${benhNhans}">
                         <td th:text="${bn.maBn}">BN001</td>

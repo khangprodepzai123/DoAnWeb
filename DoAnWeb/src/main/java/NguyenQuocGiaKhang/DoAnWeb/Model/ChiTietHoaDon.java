@@ -5,26 +5,24 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "ChiTietHoaDon")
+@Table(name = "chi_tiet_hoa_don")
 public class ChiTietHoaDon {
 
     @EmbeddedId
     private ChiTietHoaDonId id = new ChiTietHoaDonId();
 
-    @Column(name = "SoLuong", nullable = false)
+    @Column(name = "so_luong", nullable = false)
     private Integer soLuong;
 
-    @Column(name = "DonGia", nullable = false)
+    @Column(name = "don_gia", nullable = false)
     private BigDecimal donGia;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("maHd")
-    @JoinColumn(name = "MaHd")
+    @JoinColumn(name = "ma_hd", insertable = false, updatable = false)
     private HoaDon hoaDon;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("maThuoc")
-    @JoinColumn(name = "MaThuoc")
+    @JoinColumn(name = "ma_thuoc", insertable = false, updatable = false)
     private Thuoc thuoc;
 
     public BigDecimal getThanhTienDong() {
